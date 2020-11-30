@@ -1,0 +1,131 @@
+server:
+  assetsfromlocal: false
+
+  allowpurge: true
+
+  reverseProxyInspect: http://localhost:8082/inspect
+
+  urlExternal: http://localhost:8080
+
+  name: "demo"
+
+  addr: :8080
+
+  webfrontend: "/fylr/files/webfrontend"
+  resources: "/fylr/files/resources"
+
+  #basicAuth:
+  #  root: admin
+
+  backendaddr: :8082
+
+  execserver:
+    parallel: 3
+    addresses:
+      - http://localhost:8083/?pretty=true
+
+  backendserver: http://localhost:8082
+
+  db:
+    driver: sqlite3
+    dsn: "/fylr/files/database/fylr.db?_foreign_keys=1&&_busy_timeout=60000"
+    maxOpenConns: 10
+    maxIdleConns: 10
+
+  elastic:
+    parallel: 1
+    objectsPerJob: 100
+    addresses:
+      - "http://elasticsearch:9200"
+
+  s3:
+    endpoint: "minio:9000"
+    accessKeyID: "minio"
+    secretAccessKey: "minio123"
+    bucketLocation: "us-east-1"
+    ssl: false
+
+  plugins:
+    easydb:
+    #  - "/fylr/files/plugins/easydb/base-plugins.yml"
+    fylr:
+    #  - "/fylr/files/plugins/fylr/example"
+
+execserver:
+  addr: :8083
+  tempDir: /tmp/fylr
+  waitgroups:
+    a:
+      processes: 2
+    b:
+      processes: 2
+    c:
+      processes: 1
+  services:
+    node:
+      waitgroup: b
+      commands:
+        node:
+          prog: "node"
+    convert:
+      waitgroup: a
+      commands:
+        convert:
+          prog: "convert"
+          env:
+            - "OMP_NUM_THREADS=1"
+        composite:
+          prog: "composite"
+          env:
+            - "OMP_NUM_THREADS=1"
+    ffmpeg:
+      waitgroup: a
+      commands:
+        ffmpeg:
+          prog: ffmpeg
+        convert:
+          prog: "convert"
+          env:
+            - "OMP_NUM_THREADS=1"
+        composite:
+          prog: "composite"
+          env:
+            - "OMP_NUM_THREADS=1"
+    soffice:
+      waitgroup: c
+      commands:
+        soffice:
+          prog: soffice
+        convert:
+          prog: "convert"
+          env:
+            - "OMP_NUM_THREADS=1"
+        composite:
+          prog: "composite"
+          env:
+            - "OMP_NUM_THREADS=1"
+    pdf2pages:
+      waitgroup: a
+      commands:
+        pdf2pages:
+          prog: "pdf2pages"
+    xslt:
+      waitgroup: a
+      commands:
+          xsltproc:
+            prog: "xsltproc"
+    copy:
+      waitgroup: a
+      commands:
+            copy:
+              prog: "copy"
+    iiif:
+      waitgroup: a
+      commands:
+        iiif_im:
+          prog: "iiif_im"
+    produce:
+      waitgroup: a
+      commands:
+        produce:
+          prog: "produce"
