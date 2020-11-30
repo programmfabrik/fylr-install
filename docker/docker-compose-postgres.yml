@@ -18,7 +18,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "./fylr/data/elastic:/usr/share/elasticsearch/data"
+      - "./data/elastic:/usr/share/elasticsearch/data"
     networks:
       - fylr
 
@@ -32,7 +32,7 @@ services:
       POSTGRES_PASSWORD: 'fylr'
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - "./fylr/data/postgres:/var/lib/postgresql/data"
+      - "./data/postgres:/var/lib/postgresql/data"
     depends_on:
       - elasticsearch
     networks:
@@ -45,7 +45,7 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - "./fylr/data/minio:/data"
+      - "./data/minio:/data"
     command: server /data
     depends_on:
       - elasticsearch
@@ -66,7 +66,7 @@ services:
     networks:
       - fylr
 #    volumes:
-#      - "./fylr/config/fylr.yml:/fylr/config/fylr.yml"
+#      - "./config/fylr.yml:/fylr/config/fylr.yml"
 
 networks:
   fylr:

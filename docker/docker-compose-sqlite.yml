@@ -18,7 +18,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - "./fylr/data/elastic:/usr/share/elasticsearch/data"
+      - "./data/elastic:/usr/share/elasticsearch/data"
     networks:
       - fylr
 
@@ -29,7 +29,7 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - "./fylr/data/minio:/data"
+      - "./data/minio:/data"
     command: server /data
     depends_on:
       - elasticsearch
@@ -48,8 +48,8 @@ services:
     networks:
       - fylr
     volumes:
-      - "./fylr/data/sqlite:/fylr/files/database"
-      - "./fylr/config/fylr.yml:/fylr/config/fylr.yml"
+      - "./data/sqlite:/fylr/files/database"
+      - "./config/fylr.yml:/fylr/config/fylr.yml"
 
 networks:
   fylr:
