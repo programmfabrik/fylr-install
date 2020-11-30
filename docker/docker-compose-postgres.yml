@@ -53,9 +53,9 @@ services:
     networks:
       - fylr
 
-  fylr-server-postgres:
+  fylr-server:
     image: "docker.fylr.io/fylr/fylr:develop"
-    container_name: fylr-server-postgres
+    container_name: fylr-server
     restart: always
     ports:
       - "8080:8080"

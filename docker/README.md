@@ -2,7 +2,7 @@
 
 Since fylr requires a fully running installation of docker, refer to it's official documentation [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
 
-## Single installation
+## Installation
 
 Since fylr is deployed via. docker, we don't need to install 3rd-party applications since everything is included in the fylr container.
 
@@ -43,3 +43,20 @@ cp fylr-sqlite.yml ./fylr/config/fylr.yml
 ```
 
 As you have seen in the docker-compose file, we use a **custom** elastic container. This is a requirement because fylr uses resources that the standard elastic container does not provide. If you want to see what changes have been made to the container, you can check out our official repository at [github](https://github.com/programmfabrik/elastic-icu).
+
+## Webfrontend changes
+
+Since some installations require you to change the webfrontend, the following documentation contains steps for providing a custom webfrontend.
+
+During the following steps we assume you have placed your webfrontend to the following path: `./fylr/webfrontend`.
+
+Since the webfrontend is not reachable for the fylr yet, we must make it known to him. Such goal can be reached by adding a volume mapping to the fylr container as you can see in the configuration snipped below:
+
+```yaml
+  fylr-server:
+    image: "docker.fylr.io/fylr/fylr:develop"
+    container_name: fylr-server
+    ...
+    volumes:
+      - "./fylr/webfrontend:/fylr/files/webfrontend"
+```
