@@ -1,0 +1,205 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: <fylr-namespace>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fylr-configmap
+  namespace: <fylr-namespace>
+data:
+  fylr.yml: |
+    server:
+      #tls:
+      #  certFile:
+      #  keyFile:
+      assetsfromlocal: false
+      allowpurge: false
+      reverseProxyInspect: http://localhost:8082/inspect
+      urlExternal: <fylr-external-url>
+      name: <fylr-instance-name>
+      addr: :8080
+      webfrontend: "/fylr/files/webfrontend"
+      resources: "/fylr/files/resources"
+      #basicAuth:
+      #  root: admin
+      backendaddr: :8082
+      execserver:
+        parallel: 4
+        addresses:
+          - http://localhost:8083/?pretty=true
+      backendserver: http://localhost:8082
+      db:
+        driver: <fylr-database-driver>
+        dsn: <fylr-dsn>
+        maxOpenConns: 10
+        maxIdleConns: 10
+      elastic:
+        parallel: 2
+        objectsPerJob: 100
+        addresses:
+          - <fylr-elasticsearch-address>
+      s3:
+        endpoint: <fylr-s3-storage-target-url>
+        accessKeyID: <fylr-s3-access-key>
+        secretAccessKey: <fylr-s3-secret-key>
+        bucketLocation: <fylr-s3-bucket-location>
+        ssl: <fylr-s3-use-ssl>
+      plugins:
+        easydb:
+        #  - "/fylr/files/plugins/easydb/base-plugins.yml"
+        fylr:
+        #  - "/fylr/files/plugins/fylr/example"
+    execserver:
+      addr: :8083
+      tempDir: /tmp/fylr
+      waitgroups:
+        a:
+          processes: 4
+        b:
+          processes: 4
+        c:
+          processes: 2
+      services:
+        node:
+          waitgroup: b
+          commands:
+            node:
+              prog: "node"
+        convert:
+          waitgroup: a
+          commands:
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=1"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=1"
+        ffmpeg:
+          waitgroup: a
+          commands:
+            ffmpeg:
+              prog: ffmpeg
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=1"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=1"
+        soffice:
+          waitgroup: c
+          commands:
+            soffice:
+              prog: soffice
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=1"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=1"
+        pdf2pages:
+          waitgroup: a
+          commands:
+            pdf2pages:
+              prog: "pdf2pages"
+        xslt:
+          waitgroup: a
+          commands:
+              xsltproc:
+                prog: "xsltproc"
+        copy:
+          waitgroup: a
+          commands:
+                copy:
+                  prog: "copy"
+        iiif:
+          waitgroup: a
+          commands:
+            iiif_im:
+              prog: "iiif_im"
+        produce:
+          waitgroup: a
+          commands:
+            produce:
+              prog: "produce"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fylr
+  namespace: <fylr-namespace>
+spec:
+  selector:
+    matchLabels:
+      app: fylr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fylr
+    spec:
+      containers:
+      - image: "docker.fylr.io/fylr/fylr:develop"
+        name: fylr
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: webfrontend
+        - containerPort: 8081
+          name: api-port
+        volumeMounts:
+        - name: fylr-configuration
+          mountPath: /fylr/config
+      volumes:
+      - name: fylr-configuration
+        configMap:
+          name: fylr-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fylr
+  name: prod-fylr
+  namespace: <fylr-namespace>
+spec:
+  selector:
+    app: fylr
+  ports:
+    - name: "http"
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: "https"
+      protocol: TCP
+      port: 8443
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: <fylr-namespace>
+spec:
+  tls:
+  - hosts:
+    - <fylr-external-url>
+    secretName: my-tls-secret-name
+  rules:
+  - host: <fylr-external-url>
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: "prod-fylr"
+            port:
+              number: 8080
