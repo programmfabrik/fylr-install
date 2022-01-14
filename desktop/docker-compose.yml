@@ -1,7 +1,7 @@
 version: '3'
 services:
   elastic-01:
-    image: docker.fylr.io/fylr/elasticsearch:latest
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
     container_name: elastic-01
     environment:
       - node.name=elastic-01
@@ -17,6 +17,7 @@ services:
       - es-data-01:/usr/share/elasticsearch/data
     networks:
       - fylr
+    command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
 
   postgres2:
     image: postgres
@@ -70,10 +71,10 @@ services:
     volumes:
       - "./fylr/config/execserver.yml:/fylr/config/fylr.yml"
 
-  fylr-server-postgres:
+  fylr-server:
     image: docker.fylr.io/fylr/fylr:main
     hostname: localhost
-    container_name: fylr-server-postgres
+    container_name: fylr-server
     restart: always
     environment:
       FYLR_NAME: "demo-postgres"
