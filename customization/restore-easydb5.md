@@ -10,6 +10,8 @@ How to add the data of an easydb 5 to an empty fylr
 
 When in doubt about the form field "File Mode":
 * "Remote leave" does not copy asset files but uses the easydb-URLs to display assets in fylr.
-* "Client Copy" copies asset files from easydb server to fylr via your browser.
-* "Server Copy" copies asset files from easydb server to fylr without using your browser.
+* "Remote leave, versions": dito, but in fylr generate image variants for preview.
+* "Remote leave, fast": dito, but from easydb even use the image variants for preview.
+* "Client Copy" copies asset files from easydb to fylr via your browser.
+* "Server Copy" copies asset files from easydb to fylr as a server background task, without using your browser.
 
