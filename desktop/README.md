@@ -47,5 +47,6 @@ you can now surf to your local fylr webfrontend at http://127.0.0.1:8080
 
 # Further reading
 
+* [Import an easydb into fylr](../customization/restore-easydb5.md)
 * [Use a customized Web-Frontend](../customization/webfrontend.md)
 
