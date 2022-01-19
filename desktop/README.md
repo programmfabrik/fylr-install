@@ -38,12 +38,22 @@ sudo sysctl -w vm.max_map_count=262144
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/docker-compose.yml > docker-compose.yml
-docker-compose up -d
+docker-compose up
 ```
 
-# result
+# Result
 
 you can now surf to your local fylr webfrontend at http://127.0.0.1:8080
+
+# Troubleshooting
+
+* `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
+
+* When elasticsearch does not work, make sure you used `sysctl -w vm.max_map_count=262144` as shown above.
+
+* If, after running fylr under Windows, memory is still occupied, stop wsl with `wsl --shutdown`.
+
+* When docker does not find `pipe/docker_engine` then go to Docker Desktop - Bug Symbol - Restart.
 
 # Further reading
 
