@@ -17,8 +17,8 @@ mkdir -p fylr/config
 2. download example configuration files
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/fylr.yml > fylr/config/fylr.yml
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/execserver.yml > fylr/config/execserver.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/fylr.yml -o fylr/config/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/execserver.yml -o fylr/config/execserver.yml
 ```
 3. increase memory limit for elasticsearch:
 
@@ -37,7 +37,7 @@ sudo sysctl -w vm.max_map_count=262144
 4. docker-compose: Much of the setup is encapsulated in a docker-compose file. Download and use it like this:
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/docker-compose.yml > docker-compose.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/docker-compose.yml -o docker-compose.yml
 docker-compose up
 ```
 
