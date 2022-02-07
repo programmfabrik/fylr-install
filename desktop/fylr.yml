@@ -29,7 +29,6 @@ fylr:
 
   plugins:
     - "/fylr/files/plugins/easydb"
-    - "/fylr/files/plugins/fylr/example"
 
   allowpurge: true
 
