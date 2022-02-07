@@ -55,7 +55,7 @@ Since the webfrontend is not reachable for the fylr yet, we must make it known t
 
 ```yaml
   fylr-server:
-    image: "docker.fylr.io/fylr/fylr:develop"
+    image: "docker.fylr.io/fylr/fylr:main"
     container_name: fylr-server
     ...
     volumes:
