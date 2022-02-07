@@ -37,7 +37,7 @@ services:
       - fylr
 
   fylr-server:
-    image: "docker.fylr.io/fylr/fylr:develop"
+    image: "docker.fylr.io/fylr/fylr:main"
     container_name: fylr-server
     restart: always
     ports:
