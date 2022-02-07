@@ -1,0 +1,63 @@
+fylr:
+  debug:
+    skipTerms: false
+
+  logger:
+    noColor: true
+
+  db:
+    maxOpenConns: 20
+    maxIdleConns: 10
+
+  s3:
+    accessKeyID: "minio"
+    secretAccessKey: "minio123"
+    bucketLocation: "us-east-1"
+    ssl: false
+
+  elastic:
+    parallel: 4
+    maxMem: 100mb
+    objectsPerJob: 1000
+
+  execserver:
+    parallel: 2
+    pluginJobTimeoutSec: 240
+    connectTimeoutSec: 120
+
+  plugins:
+    - "/fylr/files/plugins/easydb"
+    - "/fylr/files/plugins/fylr/example"
+
+  allowpurge: true
+
+  resources: "/fylr/files/resources"
+
+  services:
+    webapp:
+      path: "/fylr/files/webfrontend"
+      oauth2:
+        clientID: web-client
+        clientSecret: foo
+
+    api:
+      oauth2Server:
+        clients:
+          web-client:
+            clientID: web-client
+            clientSecret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
+            redirectURL: http://fylr.localhost:8080/oauth2/callback
+            scopes: ["read", "write", "offline"]
+          app-client:
+            clientID: app-client
+            clientSecret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
+            redirectURL: fylr.app.scheme:///
+            scopes: ["read", "write", "offline"]
+
+    backend:
+      inspect:
+        backup:
+          path: /tmp/fylrctrl
+          fylrctl: fylrctl
+          psql: psql
+          sqlite3: sqlite3
