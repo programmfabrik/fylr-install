@@ -14,7 +14,10 @@ For deployment, you only need to place the `docker-compose.yml` somewhere on you
     /elastic
     /minio
     /postgres
+    /sqlite
   /config
+    /execserver
+    /fylr
   /docker-compose.yml
 ```
 
@@ -27,22 +30,20 @@ chmod -R a+rwx ./fylr/data
 
 **ATTENTION**
 
-As you have seen, we have manipulated the access rights to the file tree to 'a+rwx' for the data directory of `postgres`, `minio` and `elastic`. Since `elastic`, `postgres` and `minio` need permissions to write to disk, these permissions are required.
+As you have seen, we have manipulated the access rights to the file tree to 'a+rwx' for the data directory of `postgres`, `minio`, `elastic` and `sqlite`. Since `elastic`, `postgres`, `minio` and `sqlite` need permissions to write to disk, these permissions are required.
 
 ### docker-compose.yml
 
 Since fylr is provided via. docker and the easiest way to provide a set of containers is to provide a `docker-compose` file, we provide two solutions for you:
 
-- [docker-compose-postgres.yml](docker-compose-postgres.yml)
-- and [docker-compose-sqlite.yml](docker-compose-sqlite.yml)
+- [docker-compose.postgres.yml](docker-compose.postgres.yml)
+- and [docker-compose.sqlite.yml](docker-compose.sqlite.yml)
 
-If you want to run the ***sqlite*** solution, you must copy the `fylr-sqlite.yml` to the configuration directory and rename it to `fylr.yml`.
+If you want to run the ***sqlite*** solution, you must use the `docker-compose.sqlite.yml`.
 
 ```bash
-cp fylr-sqlite.yml ./fylr/config/fylr.yml
+docker-compose -f docker-compose.sqlite.yml up -d
 ```
-
-As you have seen in the docker-compose file, we use a **custom** elastic container. This is a requirement because fylr uses resources that the standard elastic container does not provide. If you want to see what changes have been made to the container, you can check out our official repository at [github](https://github.com/programmfabrik/elastic-icu).
 
 ## Webfrontend changes
 
