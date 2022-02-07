@@ -43,7 +43,9 @@ docker-compose up
 
 # Result
 
-you can now surf to your local fylr webfrontend at http://127.0.0.1:8080
+You can now surf to your local fylr webfrontend at http://127.0.0.1:8080
+
+Default login is root with password admin. Please replace with something secure.
 
 # Troubleshooting
 
