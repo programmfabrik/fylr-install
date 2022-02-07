@@ -17,8 +17,8 @@ mkdir -p fylr/config
 2. download example configuration files
 
 ```bash
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/fylr.yml > flyr/config/fylr.yml
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/execserver.yml > flyr/config/execserver.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/fylr.yml > fylr/config/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/desktop/execserver.yml > fylr/config/execserver.yml
 ```
 3. increase memory limit for elasticsearch:
 
