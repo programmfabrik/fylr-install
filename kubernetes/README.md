@@ -1,5 +1,8 @@
 # Kubernetes
 
+> :warning: OUTDATED
+> Since the configuration of fylr has changed in the last few months, this example is outdated and needs to be revised to work.
+
 In the example below we assume that you already use the following services:
 
 - s3
