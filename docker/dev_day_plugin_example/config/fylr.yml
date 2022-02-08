@@ -1,9 +1,16 @@
 fylr:
+  name: postgres
+  externalURL: "http://fylr.localhost:8080"
+
   debug:
     skipTerms: false
 
   logger:
+    format: "console"
+    level: info
+    timeFormat: "2006-01-02T15:04:05Z07:00"
     noColor: true
+    addHostname: false
 
   db:
     maxOpenConns: 20
@@ -14,16 +21,23 @@ fylr:
     secretAccessKey: "minio123"
     bucketLocation: "us-east-1"
     ssl: false
+    endpoint: "fylr-minio:9000"
 
   elastic:
     parallel: 4
     maxMem: 100mb
     objectsPerJob: 1000
+    addresses:
+      - "http://fylr-elastic:9200"
 
   execserver:
     parallel: 2
     pluginJobTimeoutSec: 240
     connectTimeoutSec: 120
+    addresses:
+      - http://fylr.localhost:8070/?pretty=true
+    callbackBackendInternalURL: "http://fylr.localhost:8082"
+    callbackApiInternalURL: "http://fylr.localhost:8081"
 
   plugins:
     - "/fylr/files/plugins/easydb"
@@ -36,12 +50,17 @@ fylr:
 
   services:
     webapp:
+      addr: ":8080"
       path: "/fylr/files/webfrontend"
       oauth2:
         clientID: web-client
         clientSecret: foo
+      reverseProxy:
+        api: "http://fylr.localhost:8081"
+        backend: "http://fylr.localhost:8082"
 
     api:
+      addr: ":8081"
       oauth2Server:
         clients:
           web-client:
@@ -56,6 +75,7 @@ fylr:
             scopes: ["read", "write", "offline"]
 
     backend:
+      addr: ":8082"
       inspect:
         backup:
           path: /tmp/fylrctrl
@@ -64,6 +84,7 @@ fylr:
           sqlite3: sqlite3
 
     execserver:
+      addr: ":8070"
       tempDir: /tmp/fylr
       waitgroups:
         a:
