@@ -1,0 +1,46 @@
+plugin:
+  name: dev_day_example
+  version: "v1.0.0"
+  l10n: l10n/dev_day_example.csv
+  webfrontend:
+    url: dev_day_example.js
+  displayname:
+    de-DE: FYLR-DEV-DAY-EXAMPLE
+    en-US: FYLR-DEV-DAY-EXAMPLE
+
+base_url_prefix: "webfrontend"
+
+#base_config:
+#  - name: sample
+#    parameters:
+#      value:
+#        type: text
+#        position: 0
+#  - name: sample124
+#    parameters:
+#      value:
+#        type: text
+#        position: 0
+#
+#system_rights:
+#  - name: dev_day_example
+#    comment: This right was added by the FYLR dev_day_example plugin
+#    parameters:
+#      - name: active
+#        type: bool
+#      - name: hello
+#        type: text
+#
+#extensions:
+#  dump/info:
+#    exec:
+#      service: "main.bin"
+#      commands:
+#        - prog: "main.bin"
+#          stdin:
+#            type: "body"
+#          stdout:
+#            type: "body"
+#          args:
+#            - type: "value"
+#              value: "webfrontend/dev_day_example.js"

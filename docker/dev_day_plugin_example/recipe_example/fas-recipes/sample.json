@@ -1,0 +1,26 @@
+{
+    "name": "main.bin",
+    "description": "recipe to execute main.bin",
+    "class": "main.bin",
+    "targets": {
+        "read": {
+            "description": "execute main.bin",
+            "execs": [
+                {
+                    "commands": [
+                        {
+                            "prog": "main.bin",
+                            "stdout": {
+                                "type": "body"
+                            }
+                        }
+                    ],
+                    "extension": "%format%",
+                    "match": {},
+                    "service": "main.bin",
+                    "timeoutmsec": 0
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,95 @@
+version: '3'
+services:
+  fylr-elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: fylr-elastic
+    environment:
+      - node.name=fylr-elastic
+      - cluster.name=fylr-elastic
+      - cluster.initial_master_nodes=fylr-elastic
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
+    volumes:
+      - ./data/elastic:/usr/share/elasticsearch/data
+    networks:
+      - fylr
+
+  fylr-postgres:
+    image: postgres
+    container_name: fylr-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: 'fylr'
+      POSTGRES_USER: 'fylr'
+      POSTGRES_PASSWORD: 'fylr'
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    command: >
+      -c work_mem=64MB
+      -c maintenance_work_mem=32MB
+      -c max_wal_size=512MB
+    depends_on:
+      - fylr-elastic
+    networks:
+      - fylr
+
+  fylr-minio:
+    image: "minio/minio"
+    container_name: "fylr-minio"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    volumes:
+      - ./data/minio:/data
+    command: server /data
+    depends_on:
+      - fylr-elastic
+      - fylr-postgres
+    networks:
+      - fylr
+
+  fylr:
+    image: docker.fylr.io/fylr/fylr:main
+    hostname: fylr.localhost
+    container_name: fylr
+    restart: always
+    environment:
+      FYLR_NAME: "postgres"
+      FYLR_EXTERNALURL: "http://fylr.localhost:8080"
+      FYLR_SERVICES_WEBAPP_ADDR: ":8080"
+      FYLR_SERVICES_WEBAPP_REVERSEPROXY_API: "http://fylr.localhost:8081"
+      FYLR_SERVICES_WEBAPP_REVERSEPROXY_BACKEND: "http://fylr.localhost:8082"
+      FYLR_SERVICES_API_ADDR: ":8081"
+      FYLR_SERVICES_BACKEND_ADDR: ":8082"
+      FYLR_EXECSERVER_ADDRESSES: '["http://fylr.localhost:8070/?pretty=true"]'
+      FYLR_EXECSERVER_CALLBACKBACKENDINTERNALURL: "http://fylr.localhost:8082"
+      FYLR_EXECSERVER_CALLBACKAPIINTERNALURL: "http://fylr.localhost:8081"
+      FYLR_ELASTIC_ADDRESSES: '["http://fylr-elastic:9200"]'
+      FYLR_SERVICES_EXECSERVER_ADDR: ":8070"
+      FYLR_S3_ENDPOINT: "fylr-minio:9000"
+      FYLR_DB_DRIVER: "postgres"
+      FYLR_DB_DSN: "host=fylr-postgres port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
+      FYLR_LOGGER_LEVEL: info
+      # FYLR_ELASTIC_LOGGER: "Text"
+      FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
+    ports:
+      - "8080:8080" # webfrontend
+    depends_on:
+      - fylr-elastic
+      - fylr-postgres
+      - fylr-minio
+    networks:
+      - fylr
+    volumes:
+      - "./config:/fylr/config"
+      - "./files/dev-day-plugin-example:/fylr/files/plugins/fylr/dev-day-plugin-example"
+      - "./recipe_example/bin/main.bin:/fylr/bin/main.bin"
+
+networks:
+  fylr:

@@ -1,0 +1,6 @@
+key,de-DE,en-US
+server.config.name.system.comment,Das ist das FYLR DEV_DAY_Example Plugin,This is the FYLR DEV_DAY_Example plugin
+server.config.parameter.system.sample.value.label,Das ist ein label field des plugins,This is a label applied to the plugin
+server.right.system.plugin.dev_day_example.dev_day_example,Dev-Day Example Plugin,Dev-Day Example Plugin
+server.right.system.plugin.dev_day_example.dev_day_example.parm.active,Aktiv,Active
+server.right.system.plugin.dev_day_example.dev_day_example.parm.hello,Text,Text

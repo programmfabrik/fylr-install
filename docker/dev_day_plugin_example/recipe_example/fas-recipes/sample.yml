@@ -1,0 +1,15 @@
+---
+name: main.bin
+description: recipe to process main.bin
+class: main
+targets:
+  read:
+    description: do something
+    execs:
+      - match: {}
+        service: main.bin
+        timeoutmsec: 0
+        extension: "%format%"
+        commands:
+          - prog: main.bin
+
