@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fylr
-  namespace: fylr-unib-heidelberg
   labels:
     app: fylr
     instance: fylr
