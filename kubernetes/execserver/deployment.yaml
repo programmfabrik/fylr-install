@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fylr
+    instance: execserver
+    type: execserver
+  name: execserver
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: execserver
+      instance: execserver
+  strategy:
+    rollingUpdate:
+      maxSurge: 30%
+      maxUnavailable: 30%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: execserver
+        instance: execserver
+    spec:
+      containers:
+      - name: execserver
+        image: docker.fylr.io/fylr/fylr:main
+        imagePullPolicy: Always
+        command: ["fylr"]
+        args: [ "server", "-c", "config/execserver.yaml", "--env-prefix", "CFG_EXECSERVER_"]
+        ports:
+        - containerPort: 7070
+          name: service
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 4Gi
+          requests:
+            cpu: "2"
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: /fylr/config
+          name: execserver-config
+      restartPolicy: Always
+      volumes:
+      - name: execserver-config
+        configMap:
+          name: execserver-config
+        
