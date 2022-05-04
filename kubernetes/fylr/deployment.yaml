@@ -46,7 +46,7 @@ spec:
         name: fylr
         imagePullPolicy: Always
         command: ["fylr"]
-        args: [ "server", "-c", "config/fylr.yml", "--env-prefix", "CFG_FYLR_"]
+        args: [ "server", "-c", "config/fylr.yaml", "--env-prefix", "CFG_FYLR_"]
         resources:
           requests:
             memory: "1Gi"
@@ -69,60 +69,60 @@ spec:
           - name: CFG_FYLR_EXECSERVER_ADDRESSES
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-execserver
+                name: fylr-execserver
                 key: "addresses"
           # database definition
           - name: CFG_FYLR_DB_DRIVER
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-db
+                name: fylr-db
                 key: "driver"
           - name: CFG_FYLR_DB_DSN
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-db
+                name: fylr-db
                 key: "dsn"
           # s3 definition
           - name: CFG_FYLR_S3_ENDPOINT
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-s3
+                name: fylr-s3
                 key: "endpoint"
           - name: CFG_FYLR_S3_ACCESSKEYID
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-s3
+                name: fylr-s3
                 key: "accessKeyID"
           - name: CFG_FYLR_S3_SECRETACCESSKEY
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-s3
+                name: fylr-s3
                 key: "secretAccessKey"
           - name: CFG_FYLR_S3_BUCKETLOCATION
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-s3
+                name: fylr-s3
                 key: "bucketLocation"
           - name: CFG_FYLR_S3_SSL
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-s3
+                name: fylr-s3
                 key: "ssl"
           # elastic definition
           - name: CFG_FYLR_ELASTIC_ADDRESSES
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-elastic
+                name: fylr-elastic
                 key: "addresses"
           - name: CFG_FYLR_ELASTIC_USERNAME
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-elastic
+                name: fylr-elastic
                 key: "username"
           - name: CFG_FYLR_ELASTIC_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: fylr-secret-elastic
+                name: fylr-elastic
                 key: "password"
         readinessProbe:
           failureThreshold: 3
