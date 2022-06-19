@@ -8,9 +8,9 @@
 
 3. Fill in the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
-  * This will delete the data in flyr. And the data model.
+  * This will delete the data in fylr. And the data model.
 
-  * Make sure `OAuth2` is selected, it is mandatory for flyr.
+  * Make sure `OAuth2` is selected, it is mandatory for fylr.
     * OAuth2 credentials are configured in fylr.yml, example:
 
 ```
