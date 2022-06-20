@@ -4,11 +4,29 @@
 
   * example: http://fylr.example.com/inspect/backup/
 
-2. Fill in the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `Oauth2` is not selected. Click the button `backup`.
+2. Fill in the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `OAuth2` is not selected, as easydb5 does not know OAuth. Click the button `backup`.
 
 3. Fill in the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
-  * This will delete the data in flyr. And the data model.
+  * This will delete the data in fylr. And the data model.
+
+  * Make sure `OAuth2` is selected, it is mandatory for fylr.
+    * OAuth2 credentials are configured in fylr.yml, example:
+
+```
+fylr:
+  services:
+    api:
+      oauth2Server:
+        clients:
+          web-client:
+            # bcrypt hash of foo
+            clientSecret: $2y$04$81xGNnm8PS1uiIzjbos6Le3NzFaNB0goNqnBpOx7S/EyrayzJCNAq
+    webapp:
+      oauth2:
+        clientID: web-client # matches above
+        clientSecret: foo    # matches above
+```
 
   * When in doubt about the form field "File Mode":
     * "Client Copy" copies asset files from easydb to fylr via your browser.
@@ -16,6 +34,8 @@
     * "Remote leave" does not copy asset files but uses the easydb-URLs to display assets in fylr.
     * "Remote leave, versions": dito, but in fylr generate image variants for preview.
     * "Remote leave, fast": dito, but from easydb even use the image variants for preview.
+
+  *  Click the button `restore`.
 
 ## Command Line
 
