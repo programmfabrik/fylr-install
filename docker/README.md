@@ -1,12 +1,19 @@
-# Docker
+# Requirements
 
-Since fylr requires a fully running installation of docker, refer to it's official documentation [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
+* Since fylr requires a fully running installation of docker, refer to it's official documentation [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
+* 16 GB of RAM
+* Memory setting for elastic search:
+
+```bash
+echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_elasticearch.conf
+sysctl -p /etc/sysctl.d/99-memory_for_elasticearch.conf
+```
+
+The following commands assume a Debian or Ubuntu server as an example.
 
 ## Installation
 
-Since fylr is deployed via. docker, we don't need to install 3rd-party applications since everything is included in the fylr container.
-
-For deployment, you only need to place the `docker-compose.yml` somewhere on your system and configure the volume paths. Our recommendation is to create the following directory tree to run the fylr:
+Our recommendation is to create the following directory tree to run the fylr:
 
 ```text
 ./fylr
@@ -32,32 +39,42 @@ chmod -R a+rwx ./fylr/data
 
 As you have seen, we have manipulated the access rights to the file tree to 'a+rwx' for the data directory of `postgres`, `minio`, `elastic` and `sqlite`. Since `elastic`, `postgres`, `minio` and `sqlite` need permissions to write to disk, these permissions are required.
 
-### docker-compose.yml
+## configuration
 
-Since fylr is provided via. docker and the easiest way to provide a set of containers is to provide a `docker-compose` file, we provide two solutions for you:
-
-- [docker-compose.postgres.yml](docker-compose.postgres.yml)
-- and [docker-compose.sqlite.yml](docker-compose.sqlite.yml)
-
-If you want to run the ***sqlite*** solution, you must use the `docker-compose.sqlite.yml`.
+We suggest that you use our example configuration as a starting point:
 
 ```bash
-docker-compose -f docker-compose.sqlite.yml up -d
+cd fylr
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/execserver/fylr.yml -o config/execserver/fylr.yml
 ```
 
-## Webfrontend changes
+## docker-compose
 
-Since some installations require you to change the webfrontend, the following documentation contains steps for providing a custom webfrontend.
+Much of the setup is encapsulated in a docker-compose file. Download and use it like this:
 
-During the following steps we assume you have placed your webfrontend to the following path: `./fylr/webfrontend`.
+The following commands also assume that you are in the fylr directory. (`cd fylr`)
 
-Since the webfrontend is not reachable for the fylr yet, we must make it known to him. Such goal can be reached by adding a volume mapping to the fylr container as you can see in the configuration snipped below:
-
-```yaml
-  fylr-server:
-    image: "docker.fylr.io/fylr/fylr:main"
-    container_name: fylr-server
-    ...
-    volumes:
-      - "./fylr/webfrontend:/fylr/files/webfrontend"
+```bash
+apt-get install docker-compose
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.postgres.yml -o docker-compose.yml
+docker-compose up
 ```
+
+## Result
+
+You can now surf to your fylr webfrontend at Port 8080
+
+Default login is root with password admin. Please replace with something secure.
+
+## Troubleshooting
+
+* `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
+
+* When elasticsearch does not work, make sure you used `sysctl` as shown above.
+
+## Further reading
+
+* [Import an easydb into fylr](../customization/restore-easydb5.md)
+
+* [Use a customized Web-Frontend](../customization/webfrontend.md)
