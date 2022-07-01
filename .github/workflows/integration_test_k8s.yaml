@@ -20,7 +20,7 @@ jobs:
           - kubernetes_version: 'v1.21.14'
           - kubernetes_version: 'v1.22.11'
           - kubernetes_version: 'v1.23.8'
-          - kubernetes_version: 'v1.24.1'
+          - kubernetes_version: 'v1.24.0'
     env:
       NAMESPACE: execserver
     steps:
@@ -38,6 +38,13 @@ jobs:
 
       - name: Create namespace
         run: kubectl create namespace ${{ env.NAMESPACE }}
+
+      - name: Change CPU and Memory request and limit
+        working-directory: kubernetes/execserver
+        run: |
+          sed -i 's/cpu: "2"/cpu: "250m"/g' deployment.yaml
+          sed -i 's/memory: 2Gi/memory: 500Mi/g' deployment.yaml
+          sed -i 's/memory: 4Gi/memory: 500Mi/g' deployment.yaml
 
       - name: Install execserver
         working-directory: kubernetes/execserver
