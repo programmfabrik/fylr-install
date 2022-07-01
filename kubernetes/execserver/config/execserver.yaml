@@ -51,7 +51,7 @@ fylr:
               startupCheck:
                 args:
                   - "-version"
-                regex: "ffmpeg version 4[\\.0-9]+ Copyright"
+                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
             convert:
               prog: "convert"
               env:
@@ -73,7 +73,7 @@ fylr:
               startupCheck:
                 args:
                   - "-version"
-                regex: "ffprobe version 4[\\.0-9]+ Copyright"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
             fylr_metadata:
               prog: "fylr_metadata"
         soffice:
@@ -141,4 +141,4 @@ fylr:
               startupCheck:
                 args:
                   - "-version"
-                regex: "ffprobe version 4[\\.0-9]+ Copyright"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
