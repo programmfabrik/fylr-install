@@ -20,7 +20,9 @@ jobs:
           - kubernetes_version: 'v1.21.14'
           - kubernetes_version: 'v1.22.11'
           - kubernetes_version: 'v1.23.8'
-          - kubernetes_version: 'v1.24.2'
+          - kubernetes_version: 'v1.24.1'
+    env:
+      NAMESPACE: execserver
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,15 +37,11 @@ jobs:
         run: kubectl config get-contexts
 
       - name: Create namespace
-        run: kubectl create namespace execserver
+        run: kubectl create namespace ${{ env.NAMESPACE }}
 
       - name: Install execserver
         working-directory: kubernetes/execserver
         run: kubectl apply -k ./
-
-      # it is important to wait for the execserver to be ready before running the tests
-      - name: Wait 90 seconds
-        run: sleep 90
 
       - name: Run integration tests
         working-directory: .tests
