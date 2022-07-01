@@ -13,6 +13,7 @@ fi
 for i in {1..3}; do
     if [ "$(kubectl -n $NAMESPACE get pods -l app=execserver | grep execserver | awk '{print $3}' | grep Running | wc -l)" != "3" ]; then
         echo "Replica $i is not running."
+        kubectl -n $NAMESPACE get pods -l app=execserver
         exit -1
     else 
         echo "Replica $i is running."
