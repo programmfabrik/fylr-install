@@ -34,6 +34,9 @@ jobs:
       - name: Print context
         run: kubectl config get-contexts
 
+      - name: Create namespace
+        run: kubectl create namespace execserver
+
       - name: Install execserver
         working-directory: kubernetes/execserver
         run: kubectl apply -k ./
