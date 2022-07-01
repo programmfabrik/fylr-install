@@ -1,0 +1,56 @@
+name: K8s Integration Test
+
+on:
+  push:
+    branches:
+      - "**"
+
+env:
+  terraform_version: "v1.1.9"
+  minikube_version: 'v1.26.0'
+
+jobs:
+  execserver:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - kubernetes_version: 'v1.20.15'
+          - kubernetes_version: 'v1.21.14'
+          - kubernetes_version: 'v1.22.11'
+          - kubernetes_version: 'v1.23.8'
+          #- kubernetes_version: 'v1.24.0'
+    env:
+      NAMESPACE: execserver
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.4.3
+        with:
+          minikube version: ${{ env.minikube_version }}
+          kubernetes version: ${{ matrix.kubernetes_version }}
+
+      - name: Print context
+        run: kubectl config get-contexts
+
+      - name: Create namespace
+        run: kubectl create namespace ${{ env.NAMESPACE }}
+
+      - name: Change CPU and Memory request and limit
+        working-directory: kubernetes/execserver
+        run: |
+          sed -i 's/cpu: "2"/cpu: "250m"/g' deployment.yaml
+          sed -i 's/memory: 2Gi/memory: 500Mi/g' deployment.yaml
+          sed -i 's/memory: 4Gi/memory: 500Mi/g' deployment.yaml
+
+      - name: Install execserver
+        working-directory: kubernetes/execserver
+        run: kubectl apply -k ./
+
+      - name: Run integration tests
+        working-directory: .tests
+        run: |
+          ./execserver.sh
