@@ -1,0 +1,28 @@
+namespace: fylr-sample
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+- name: fylr-s3
+  envs:
+  - config/s3.conf
+- name: fylr-elastic
+  envs:
+  - config/elastic.conf
+- name: fylr-db
+  envs:
+  - config/db.conf
+- name: fylr-execserver
+  envs:
+  - config/execserver.conf
+
+configMapGenerator:
+- name: fylr-config
+  files:
+  - config/fylr.yaml
+
+resources:
+  - "services.yaml"
+  - "deployment.yaml"
+  - "ingress.yaml"

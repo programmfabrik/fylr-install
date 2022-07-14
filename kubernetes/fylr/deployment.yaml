@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fylr
+  labels:
+    app: fylr
+    instance: fylr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fylr
+      instance: fylr
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 30%
+      maxUnavailable: 30%
+  template:
+    metadata:
+      labels:
+        app: fylr
+        instance: fylr
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "kubernetes.io/hostname"
+            labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - fylr
+              - key: type
+                operator: In
+                values:
+                - instance
+              - key: instance
+                operator: In
+                values:
+                - fylr
+      containers:
+      - image: docker.fylr.io/fylr/fylr:main
+        name: fylr
+        imagePullPolicy: Always
+        command: ["fylr"]
+        args: [ "server", "-c", "config/fylr.yaml", "--env-prefix", "CFG_FYLR_"]
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+        ports:
+          - containerPort: 8080
+            name: webfrontend
+          - containerPort: 8081
+            name: api-port
+          - containerPort: 8082
+            name: backend-port
+        volumeMounts:
+          - name: fylr-configuration
+            mountPath: /fylr/config
+        env:
+          # execserver
+          - name: CFG_FYLR_EXECSERVER_ADDRESSES
+            valueFrom:
+              secretKeyRef:
+                name: fylr-execserver
+                key: "addresses"
+          # database definition
+          - name: CFG_FYLR_DB_DRIVER
+            valueFrom:
+              secretKeyRef:
+                name: fylr-db
+                key: "driver"
+          - name: CFG_FYLR_DB_DSN
+            valueFrom:
+              secretKeyRef:
+                name: fylr-db
+                key: "dsn"
+          # s3 definition
+          - name: CFG_FYLR_S3_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "endpoint"
+          - name: CFG_FYLR_S3_ACCESSKEYID
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "accessKeyID"
+          - name: CFG_FYLR_S3_SECRETACCESSKEY
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "secretAccessKey"
+          - name: CFG_FYLR_S3_BUCKETLOCATION
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "bucketLocation"
+          - name: CFG_FYLR_S3_SSL
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "ssl"
+          # elastic definition
+          - name: CFG_FYLR_ELASTIC_ADDRESSES
+            valueFrom:
+              secretKeyRef:
+                name: fylr-elastic
+                key: "addresses"
+          - name: CFG_FYLR_ELASTIC_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: fylr-elastic
+                key: "username"
+          - name: CFG_FYLR_ELASTIC_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: fylr-elastic
+                key: "password"
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: backend-port
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: backend-port
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+      volumes:
+        - name: fylr-configuration
+          configMap:
+            name: fylr-config
+      restartPolicy: "Always"
+      automountServiceAccountToken: false

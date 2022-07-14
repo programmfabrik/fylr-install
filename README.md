@@ -4,11 +4,11 @@
 
 * [docker/README.md](docker/README.md): To set up fylr on a server via docker: will be linked when updated.
 
-* (kubernetes/README.md): To set up fylr via kubernetes: will be linked when updated.
+* [kubernetes](kubernetes/README.md): To set up fylr via Kubernetes
 
 Screenshot of running fylr webfrontend:
 
-![](assets/fylr-preview.png)
+![fylr-preview](assets/fylr-preview.png)
 
 ## Download fylrctl
 

@@ -1,0 +1,144 @@
+fylr:
+  name: execserver
+
+  logger:
+    level: "info"
+    timeFormat: "2006-01-02 15:04:05"
+
+  services:
+    execserver:
+      addr: ":7070"
+      tempDir: /tmp/fylr
+      waitgroups:
+        a:
+          processes: 4
+        b:
+          processes: 2
+        c:
+          processes: 4
+      services:
+        node:
+          waitgroup: b
+          commands:
+            node:
+              prog: "node"
+        convert:
+          waitgroup: a
+          commands:
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        ffmpeg:
+          waitgroup: a
+          commands:
+            ffmpeg:
+              prog: ffmpeg
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            ffprobe:
+              prog: ffprobe
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        soffice:
+          waitgroup: c
+          commands:
+            soffice:
+              prog: soffice
+              startupCheck:
+                args:
+                  - "--headless"
+                  - "--invisible"
+                  - "--version"
+                regex: "LibreOffice 7[.0-9]+"
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        pdf2pages:
+          waitgroup: a
+          commands:
+            pdf2pages:
+              prog: "pdf2pages"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        xslt:
+          waitgroup: a
+          commands:
+            xsltproc:
+              prog: "xsltproc"
+        copy:
+          waitgroup: a
+          commands:
+            copy:
+              prog: "copy"
+        iiif:
+          waitgroup: a
+          commands:
+            iiif_im:
+              prog: "iiif_im"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version v*"
+        metadata:
+          waitgroup: a
+          commands:
+            fylr_metadata:
+              prog: "fylr_metadata"
+            ffprobe:
+              prog: ffprobe
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
