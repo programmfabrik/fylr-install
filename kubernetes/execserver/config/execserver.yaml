@@ -5,6 +5,8 @@ fylr:
     level: "info"
     timeFormat: "2006-01-02 15:04:05"
 
+  resources: "/fylr/files/resources"
+
   services:
     execserver:
       addr: ":7070"

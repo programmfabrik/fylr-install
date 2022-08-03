@@ -4,6 +4,8 @@ fylr:
   debug:
     skipTerms: false
 
+  resources: "/fylr/files/resources"
+
   services:
     execserver:
       tempDir: /tmp/fylr
