@@ -42,6 +42,11 @@ fylr:
 
     api:
       oauth2Server:
+        # This secret is used to sign authorize codes, access and refresh
+        # tokens. If unset, a random string is used. If multiple fylr server are
+        # serving the same instance, the signingSecret needs to be configured.
+        # The format is a 32-byte string.
+        signingSecret: "d4b207ce131411ed8c7300155dd22658"
         clients:
           web-client:
             clientID: web-client

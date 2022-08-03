@@ -85,7 +85,7 @@ fylr:
     # the object shows a per field list of stored terms. This can be useful for debugging
     # of analyzer settings.
     fielddata: false
-  
+
   # Client configuration of execserver is used
   # for syncing of files, metadata generation and plugin execution
   execserver:
@@ -113,6 +113,11 @@ fylr:
       addr: :8081
       # oauth2 server settings
       oauth2Server:
+        # This secret is used to sign authorize codes, access and refresh
+        # tokens. If unset, a random string is used. If multiple fylr server are
+        # serving the same instance, the signingSecret needs to be configured.
+        # The format is a 32-byte string.
+        signingSecret: "d4b207ce131411ed8c7300155dd22658"
         # map with pre-configured client, use for the webapp
         clients:
           # client-id
@@ -154,7 +159,7 @@ fylr:
       # listener for the webapp
       addr: :8080
       # javascript files for the webapp
-      path: /fylr/files/webfrontend  
+      path: /fylr/files/webfrontend
       # oauth2 client configuration to connect to
       # server. This must match the configuration above.
       oauth2:
