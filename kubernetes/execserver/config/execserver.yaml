@@ -19,6 +19,11 @@ fylr:
         c:
           processes: 4
       services:
+        python3:
+          waitgroup: b
+          commands:
+            python3:
+              prog: "python3"
         node:
           waitgroup: b
           commands:
