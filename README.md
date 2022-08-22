@@ -12,6 +12,16 @@ Screenshot of running fylr webfrontend:
 
 ![fylr-preview](assets/fylr-preview.png)
 
+## Changelog
+
+## 08.22.2022
+
+On 8/22/2022, fylr received a refactor that breaks backward compatibility. This is an important change and requires an update to your configuration. To simplify this process, we have updated the examples to use the new format.
+
+* [desktop/execserver.yml](desktop/execserver.yml)
+* [docker/config/execserver/fylr.yml](docker/config/execserver/fylr.yml)
+* [kubernetes/execserver/config/execserver.yaml](kubernetes/execserver/config/execserver.yaml)
+
 ## Download fylrctl
 
 Since the fylr repository is so far in the private domain of Programmfabrik GmbH, there is no way to install the binary from source. Respecting the need to test fylr and to backup and restore an existing installation of easydb5 in fylr, we decided to provide versioned binaries that allow you to download the tool. Until now we only provide a Linux amd64 binary version.
