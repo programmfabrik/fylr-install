@@ -110,8 +110,8 @@ fylr:
         pdf2pages:
           waitgroup: a
           commands:
-            pdf2pages:
-              prog: "pdf2pages"
+            fylr_pdf2pages:
+              prog: "fylr_pdf2pages"
             fylr_metadata:
               prog: "fylr_metadata"
         xslt:
@@ -122,13 +122,13 @@ fylr:
         copy:
           waitgroup: a
           commands:
-            copy:
-              prog: "copy"
+            fylr_copy:
+              prog: "fylr_copy"
         iiif:
           waitgroup: a
           commands:
-            iiif_im:
-              prog: "iiif_im"
+            fylr_iiif:
+              prog: "fylr_iiif"
               startupCheck:
                 args:
                   - "-version"
