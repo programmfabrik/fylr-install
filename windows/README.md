@@ -1,6 +1,6 @@
 # test fylr.exe
 
-1. Download http://dev-box.programmfabrik.de/fylr.exe-5.zip
+1. Download `http://dev-box.programmfabrik.de/fylr.exe-5.zip`
 
 2. Extract the zip file and read the included README.md.
 
