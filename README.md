@@ -1,10 +1,12 @@
 # fylr installation methods
 
-* [desktop/README.md](desktop/README.md): To temporarily set up fylr on your Desktop.
+* [container desktop](desktop/README.md): Set up the fylr container on your desktop
 
-* [docker/README.md](docker/README.md): To set up fylr on a server via docker: will be linked when updated.
+* [container server](docker/README.md): Set up fylr container on a server: will be linked when updated
 
-* [kubernetes](kubernetes/README.md): To set up fylr via Kubernetes
+* [kubernetes](kubernetes/README.md): Set up fylr via Kubernetes
+
+* [fylr.exe](windows/README.md): Set up fylr.exe on a Windows desktop
 
 Screenshot of running fylr webfrontend:
 
