@@ -16,7 +16,7 @@ Screenshot of running fylr webfrontend:
 
 ## 08.22.2022
 
-On 8/22/2022, fylr received a refactor that breaks backward compatibility. This is an important change and requires an update to your configuration. To simplify this process, we have updated the examples to use the new format.
+On 8/22/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
 
 * [desktop/execserver.yml](desktop/execserver.yml)
 * [docker/config/execserver/fylr.yml](docker/config/execserver/fylr.yml)
