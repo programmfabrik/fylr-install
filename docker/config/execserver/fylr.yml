@@ -17,6 +17,11 @@ fylr:
         c:
           processes: 6
       services:
+        python3:
+          waitgroup: b
+          commands:
+            python3:
+              prog: "python3"
         node:
           waitgroup: b
           commands:
@@ -51,13 +56,7 @@ fylr:
               startupCheck:
                 args:
                   - "-version"
-                regex: "ffmpeg version 4[\\.0-9]+ Copyright"
-            ffprobe:
-              prog: ffprobe
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "ffprobe version 4[\\.0-9]+ Copyright"
+                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
             convert:
               prog: "convert"
               env:
@@ -74,6 +73,12 @@ fylr:
                 args:
                   - "-version"
                 regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            ffprobe:
+              prog: ffprobe
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
             fylr_metadata:
               prog: "fylr_metadata"
         soffice:
@@ -108,20 +113,29 @@ fylr:
         pdf2pages:
           waitgroup: a
           commands:
-            pdf2pages:
-              prog: "pdf2pages"
+            fylr_pdf2pages:
+              prog: "fylr_pdf2pages"
             fylr_metadata:
               prog: "fylr_metadata"
         xslt:
           waitgroup: a
           commands:
-              xsltproc:
-                prog: "xsltproc"
+            xsltproc:
+              prog: "xsltproc"
         copy:
           waitgroup: a
           commands:
-                copy:
-                  prog: "copy"
+            fylr_copy:
+              prog: "fylr_copy"
+        iiif:
+          waitgroup: a
+          commands:
+            fylr_iiif:
+              prog: "fylr_iiif"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version v*"
         metadata:
           waitgroup: a
           commands:
@@ -132,13 +146,4 @@ fylr:
               startupCheck:
                 args:
                   - "-version"
-                regex: "ffprobe version 4[\\.0-9]+ Copyright"
-        iiif:
-          waitgroup: a
-          commands:
-            iiif_im:
-              prog: "iiif_im"
-              startupCheck:
-                args:
-                  - "-version"
-                regex: "Version v*"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
