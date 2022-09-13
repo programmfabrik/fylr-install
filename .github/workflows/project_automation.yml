@@ -1,0 +1,57 @@
+name: Project automations
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    types:
+      - opened
+
+# map fields with customized labels
+env:
+  gh_pat: ${{ secrets.GH_ORG_PROJECT_AUTOMATION }}
+  organization: programmfabrik
+  project: 6
+  todo: Todo
+  in_progress: In Progress
+
+jobs:
+  issue_opened:
+    name: issue_opened
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    steps:
+      - name: Move issue to ${{ env.todo }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.0
+        with:
+          gh_token: ${{ env.gh_pat }}
+          organization: ${{ env.organization }}
+          project_id: ${{ env.project }}
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: ${{ env.todo }}
+
+  pr_opened:
+    name: pr_opened
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    steps:
+      - name: Move PR to ${{ env.in_progress }}
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.0
+        with:
+          gh_token: ${{ env.gh_pat }}
+          organization: ${{ env.organization }}
+          project_id: ${{ env.project }}
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: ${{ env.in_progress }}
+
+      - name: Add Iteration to PR
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.0
+        env:
+          custom_field_values: '[{\"name\": \"Iteration\",\"type\": \"iteration\",\"value\": \"@current\"}]'
+        with:
+          gh_token: ${{ env.gh_pat }}
+          organization: ${{ env.organization }}
+          project_id: ${{ env.project }}
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          operation_mode: custom_field
+          custom_field_values: ${{ env.custom_field_values }}
