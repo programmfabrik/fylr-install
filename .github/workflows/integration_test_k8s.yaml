@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - "**"
+    paths:
+      - "kubernetes/**"
+      - ".tests/**"
+      - ".github/workflows/integration_test_k8s.yaml"
 
 env:
   terraform_version: "v1.1.9"
