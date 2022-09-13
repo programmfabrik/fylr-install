@@ -8,7 +8,7 @@
 
 fylr.exe is currently given to selected customers and individuals by Programmfabrik GmbH Berlin exclusively.
 
-The only rights granted to anyone are to those mentioned parites the rights to participate in development and to test fylr and plugins.
+The only rights granted to anyone are to those mentioned parties the rights to participate in development and to test fylr and plugins.
 
 No production use, no sales, no distribution.
 
