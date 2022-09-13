@@ -1,0 +1,74 @@
+name: Bug Report
+description: File a bug report
+title: "[ BUG ]: "
+labels:
+  - "bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: I have searched the existing issues
+        required: true
+  - type: textarea
+    attributes:
+      label: Current Behavior
+      description: A concise description of what you're experiencing.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: false
+  - type: dropdown
+    id: os
+    attributes:
+      label: Which operating system are you using?
+      description: >
+        Please specify the operating system fylr is running on.
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - MacOS
+        - Other
+  - type: dropdown
+    id: type-of-deployment
+    attributes:
+      label: Which deployment type are you using?
+      description: >
+        Please specify the deployment type of fylr.
+      multiple: true
+      options:
+        - Kubernetes
+        - Docker
+        - Binary
+        - Other
+  - type: textarea
+    id: to-reproduce
+    attributes:
+      label: Steps To Reproduce
+      description: "Steps to reproduce the behavior:"
+      placeholder: |
+        1. How did the configuration look like
+        2. What type of call was made
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional context:"
+      description: Add any other context about the problem here.
