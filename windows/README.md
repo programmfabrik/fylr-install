@@ -6,7 +6,7 @@
 
 ## licence:
 
-fylr.exe is currently given to selected customers and individuals by Programmfbarik GmbH Berlin exclusively.
+fylr.exe is currently given to selected customers and individuals by Programmfabrik GmbH Berlin exclusively.
 
 The only rights granted to anyone are to those mentioned parites the rights to participate in development and to test fylr and plugins.
 
