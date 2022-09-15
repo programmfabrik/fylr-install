@@ -97,6 +97,7 @@ services:
       FYLR_LOGGER_LEVEL: info
       # FYLR_ELASTIC_LOGGER: "Text"
       FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
+      FYLR_ENCRYPTIONKEY: "bac910d5cca29f8ddec415fd80bdbe25"
     ports:
       - "8080:8080" # webfrontend
     depends_on:
