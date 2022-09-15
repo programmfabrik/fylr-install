@@ -4,6 +4,9 @@ generatorOptions:
   disableNameSuffixHash: true
 
 secretGenerator:
+- name: fylr-encryption
+  envs:
+  - config/encryption.conf
 - name: fylr-s3
   envs:
   - config/s3.conf
