@@ -84,6 +84,10 @@ fylr:
 
 **ATTENTION**: When you configure S3 credentials in the configuration, these credentials are stored encrypted in the database. To change the credentials for the S3 bucket, you must change the configuration through the web front end. This is because the credentials are written to the database once at first startup and cannot be changed after that.
 
+For existing installations, you may need to change the configuration. Even if the configuration has been migrated, you should review and resave the configuration to store the credentials encrypted in the database.
+
+![Location Manager](docs/storage_location_manager.png)
+
 ## 08.22.2022
 
 On 8/22/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
