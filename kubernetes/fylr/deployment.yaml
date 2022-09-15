@@ -41,7 +41,7 @@ spec:
                 values:
                 - fylr
       containers:
-      - image: docker.fylr.io/fylr/fylr:main
+      - image: docker.fylr.io/fylr/fylr-server:v6.1.0-beta.5
         name: fylr
         imagePullPolicy: Always
         command: ["fylr"]

@@ -58,7 +58,7 @@ services:
       - "9001:9001"
 
   execserver:
-    image: docker.fylr.io/fylr/fylr:main
+    image: docker.fylr.io/fylr/fylr:v6.1.0-beta.5
     container_name: execserver
     restart: always
     environment:
@@ -76,7 +76,7 @@ services:
       - "./fylr/config/execserver.yml:/fylr/config/fylr.yml"
 
   fylr-server:
-    image: docker.fylr.io/fylr/fylr:main
+    image: docker.fylr.io/fylr/fylr-server:v6.1.0-beta.5
     hostname: localhost
     container_name: fylr-server
     restart: always
