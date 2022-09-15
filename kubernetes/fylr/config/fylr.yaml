@@ -16,11 +16,6 @@ fylr:
   # public external url of the server. This url needs to be fully qualified
   externalURL: https://<external-url>
 
-  # encryptionKey is used to AES-encrypt sensitive information before writing it
-  # to the database. It must be 32 bytes long. Default is empty.
-  #    openssl rand -hex 16
-  encryptionKey: "98a653c43bcb6d86625b810cdf2a6ef9"
-
   logger:
     # Set to "json" or "console". Default: "console"
     format: "console"
@@ -69,8 +64,8 @@ fylr:
               from: no-reply@example.com
               server_addr: postfix-pfx-1.postfix.svc:25
             location_defaults:
-              originals: s3
-              versions: s3
+              originals: S3
+              versions: S3
               backups: localstorage
       # preconfigure locations for empty databases
       locations:
@@ -97,7 +92,7 @@ fylr:
           config:
             file:
               dir: "/mnt/backups/fylr"
-        s3:
+        S3:
           kind: s3
           prefix: "apitest/"
           allow_purge: true
