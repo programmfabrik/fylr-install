@@ -64,13 +64,17 @@ spec:
           - name: fylr-configuration
             mountPath: /fylr/config
         env:
-          # execserver
+          #=======================================
+          #======   execserver definition   ======
+          #=======================================
           - name: CFG_FYLR_EXECSERVER_ADDRESSES
             valueFrom:
               secretKeyRef:
                 name: fylr-execserver
                 key: "addresses"
-          # database definition
+          #=======================================
+          #======    database definition    ======
+          #=======================================
           - name: CFG_FYLR_DB_DRIVER
             valueFrom:
               secretKeyRef:
@@ -81,33 +85,75 @@ spec:
               secretKeyRef:
                 name: fylr-db
                 key: "dsn"
-          # s3 definition
+          #======================================
+          #======   s3 DEPRECATED config   ======
+          #======================================
+          # DEPRECATED, will be removed in next version
           - name: CFG_FYLR_S3_ENDPOINT
             valueFrom:
               secretKeyRef:
                 name: fylr-s3
                 key: "endpoint"
+          # DEPRECATED, will be removed in next version
           - name: CFG_FYLR_S3_ACCESSKEYID
             valueFrom:
               secretKeyRef:
                 name: fylr-s3
                 key: "accessKeyID"
+          # DEPRECATED, will be removed in next version
           - name: CFG_FYLR_S3_SECRETACCESSKEY
             valueFrom:
               secretKeyRef:
                 name: fylr-s3
                 key: "secretAccessKey"
+          # DEPRECATED, will be removed in next version
           - name: CFG_FYLR_S3_BUCKETLOCATION
             valueFrom:
               secretKeyRef:
                 name: fylr-s3
                 key: "bucketLocation"
+          # DEPRECATED, will be removed in next version
           - name: CFG_FYLR_S3_SSL
             valueFrom:
               secretKeyRef:
                 name: fylr-s3
                 key: "ssl"
-          # elastic definition
+          #======================================
+          #====== s3 definition (lacation) ======
+          #======================================
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "endpoint"
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_ACCESSKEY
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "accessKeyID"
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_SECRETKEY
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "secretAccessKey"
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_REGION
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "bucketLocation"
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "bucket"
+          - name: CFG_FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_SSL
+            valueFrom:
+              secretKeyRef:
+                name: fylr-s3
+                key: "ssl"
+          #======================================
+          #======    elastic definition    ======
+          #======================================
           - name: CFG_FYLR_ELASTIC_ADDRESSES
             valueFrom:
               secretKeyRef:
@@ -123,6 +169,14 @@ spec:
               secretKeyRef:
                 name: fylr-elastic
                 key: "password"
+          #======================================
+          #======      encryption key      ======
+          #======================================
+          - name: CFG_FYLR_ENCRYPTIONKEY
+            valueFrom:
+              secretKeyRef:
+                name: fylr-encryption
+                key: "secret"
         readinessProbe:
           failureThreshold: 3
           httpGet:
