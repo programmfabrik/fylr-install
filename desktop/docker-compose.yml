@@ -47,12 +47,15 @@ services:
       MINIO_SECRET_KEY: minio123
     volumes:
       - miniodata:/data
-    command: server /data
+    command: server /data --console-address ":9001"
     depends_on:
       - elastic-01
       - postgres2
     networks:
       - fylr
+    ports:
+      - "9000:9000"
+      - "9001:9001"
 
   execserver:
     image: docker.fylr.io/fylr/fylr:main
@@ -62,6 +65,7 @@ services:
       FYLR_LOGGER_LEVEL: debug
       FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
       FYLR_SERVICES_EXECSERVER_ADDR: ":8070"
+      FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_ENDPOINT: "minio2:9000"
     depends_on:
       - elastic-01
       - postgres2
@@ -93,6 +97,7 @@ services:
       FYLR_DB_DSN: "host=postgres2 port=5432 user=fylr password=fylr dbname=fylr sslmode=disable"
       FYLR_LOGGER_LEVEL: "debug"
       FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
+      FYLR_ENCRYPTIONKEY: "bac910d5cca29f8ddec415fd80bdbe25"
     ports:
       - "8080:8080" # webfrontend
     depends_on:
@@ -103,15 +108,14 @@ services:
     networks:
       - fylr
     volumes:
+      - fylrbackups:/fylr/files/backups
       - "./fylr/config/fylr.yml:/fylr/config/fylr.yml"
 
 volumes:
   es-data-01:
-    driver: local
   pgdata:
-    driver: local
   miniodata:
-    driver: local
+  fylrbackups:
 
 networks:
   fylr:
