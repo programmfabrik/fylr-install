@@ -237,5 +237,5 @@ fylr:
         api: "http://fylr-api:8081"
         backend: "http://fylr-backend:8082"
       # http basic auth for all access to the webfrontend (key=username, value=password)
-      basicAuth:
-        root: 0568ba06146148918f9ed6f8fcb44904
+      #basicAuth:
+      #  root: 0568ba06146148918f9ed6f8fcb44904
