@@ -15,7 +15,7 @@ services:
         hard: -1
     command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
     volumes:
-      - ./data/elastic:/usr/share/elasticsearch/data
+      - elastic:/usr/share/elasticsearch/data
     networks:
       - fylr
 
@@ -26,15 +26,15 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - ./data/minio:/data
-    command: server /data
+      - minio:/data
+    command: server /data --console-address ":9001"
     depends_on:
       - fylr-elastic
     networks:
       - fylr
 
   execserver:
-    image: docker.fylr.io/fylr/fylr:main
+    image: docker.fylr.io/fylr/fylr:v6.1.0-beta.5
     container_name: execserver
     restart: always
     environment:
@@ -50,7 +50,7 @@ services:
       - "./config/execserver:/fylr/config"
 
   fylr:
-    image: docker.fylr.io/fylr/fylr:main
+    image: docker.fylr.io/fylr/fylr-server:v6.1.0-beta.5
     hostname: fylr.localhost
     container_name: fylr
     restart: always
@@ -72,6 +72,7 @@ services:
       FYLR_LOGGER_LEVEL: info
       # FYLR_ELASTIC_LOGGER: "Text"
       FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
+      FYLR_ENCRYPTIONKEY: "bac910d5cca29f8ddec415fd80bdbe25"
     ports:
       - "8080:8080" # webfrontend
     depends_on:
@@ -81,8 +82,15 @@ services:
     networks:
       - fylr
     volumes:
-      - "./config/fylr:/fylr/config"
-      - "./data/sqlite:/fylr/files/database"
+      - fylrbackups:/fylr/files/backups
+      - ./config/fylr:/fylr/config
+      - fylrdb:/fylr/files/database
 
 networks:
   fylr:
+
+volumes:
+  minio:
+  elastic:
+  fylrbackups:
+  fylrdb:

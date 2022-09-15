@@ -22,6 +22,7 @@ Since *fylr* depends on third-party services, we first need to install all the r
 - `config/db.conf`
 - `config/elastic.conf`
 - `config/s3.conf`
+- `config/encryption.conf`
 - `config/execserver.conf`
 - `config/fylr.yaml`
 - `ingress.yaml`

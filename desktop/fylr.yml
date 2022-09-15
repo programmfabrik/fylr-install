@@ -10,6 +10,38 @@ fylr:
   db:
     maxOpenConns: 20
     maxIdleConns: 10
+    init:
+      configFile: ""
+      config:
+        system:
+          config:
+            purge:
+              allow_purge: true
+              purge_storage: true
+            location_defaults:
+              originals: S3
+              versions: S3
+              backups: localfile
+      locations:
+        localfile:
+          kind: file
+          prefix: "sample"
+          allow_purge: true
+          config:
+            file:
+              dir: "/fylr/files/backups"
+        S3:
+          kind: s3
+          prefix: "apitest/"
+          allow_purge: true
+          config:
+            s3:
+              bucket: apitest
+              endpoint: "127.0.0.1:9000"
+              accesskey: "minio"
+              secretkey: "minio123"
+              region: "eu-central-1"
+              ssl: false
 
   s3:
     accessKeyID: "minio"

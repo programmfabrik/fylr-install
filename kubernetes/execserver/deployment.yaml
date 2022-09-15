@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: execserver
-        image: docker.fylr.io/fylr/fylr:main
+        image: docker.fylr.io/fylr/fylr:v6.1.0-beta.5
         imagePullPolicy: Always
         command: ["fylr"]
         args: [ "server", "-c", "config/execserver.yaml", "--env-prefix", "CFG_EXECSERVER_"]
@@ -48,4 +48,3 @@ spec:
       - name: execserver-config
         configMap:
           name: execserver-config
-        

@@ -8,6 +8,81 @@ fylr:
   db:
     maxOpenConns: 20
     maxIdleConns: 10
+    # The init block is used to pre-fill the database when its created or purged.
+    init:
+      # Path to base config file. If set, on a fresh install or after a purge this
+      # file is used and preloaded into the base config. The format of the file is
+      # JSON in API format. Defaults to "", which starts with an empty base
+      # config. The empty base config uses defaults which are defined in
+      # resources/baseconfig/baseconfig.yml. Unset keys (from a partial base
+      # config file), are set to their defaults.
+      configFile: ""
+
+      # Inline base config. Works like configFile but used the inlined
+      # baseconfig setting in this .yml file. Runs after configFile, so everything
+      # in config overwrites settings from configFile. Default is empty.
+      config:
+        system:
+          config:
+            purge:
+              allow_purge: true
+              purge_storage: true
+            location_defaults:
+              originals: S3
+              versions: S3
+              backups: localfile
+
+      # To setup a purgeable system with default storage locations
+      # locfile & locs3, configure the following. The location_default map
+      # accepts location ids as well as names:
+      #
+      # config:
+      #   system:
+      #     config:
+      #       purge:
+      #         allow_purge: true
+      #         purge_storage: true
+      #       location_defaults:
+      #         originals: locfile
+      #         versions: locs3
+      #         backups: locfile
+
+      # preconfigure locations for empty databases
+      locations:
+        # the location's name can be any string which you choose
+        #
+        # Inside the storage location fylr will create a structure like this:
+        #
+        # [prefix/]fylr-UUID/originals
+        # [prefix/]fylr-UUID/versions
+        # [prefix/]fylr-UUID/backups
+        #
+        # The driver "file" will create directories inside the configured
+        # top level directory but never remove them. So, if you use purge
+        # a lot, FYLR will leave empty directories on disk.
+        localfile:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: "postgres/"
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: true
+          config:
+            file:
+              dir: "/fylr/files/backups"
+        S3:
+          kind: s3
+          prefix: "postgres/"
+          allow_purge: true
+          config:
+            s3:
+              bucket: postgres
+              accesskey: "minio"
+              secretkey: "minio123"
+              region: "us-east-1"
+              ssl: false
 
   s3:
     accessKeyID: "minio"

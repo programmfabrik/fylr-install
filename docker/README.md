@@ -13,15 +13,10 @@ The following commands assume a Debian or Ubuntu server as an example.
 
 ## Installation
 
-Our recommendation is to create the following directory tree to run the fylr:
+Our recommendation is to create the following directory tree to run fylr:
 
 ```text
 ./fylr
-  /data
-    /elastic
-    /minio
-    /postgres
-    /sqlite
   /config
     /execserver
     /fylr
@@ -31,13 +26,12 @@ Our recommendation is to create the following directory tree to run the fylr:
 The following commands help you to set up this directory tree:
 
 ```bash
-mkdir -p ./fylr/data/elastic ./fylr/data/minio ./fylr/data/postgres ./fylr/config ./fylr/resources ./fylr/data/sqlite
-chmod -R a+rwx ./fylr/data
+mkdir -p ./fylr/config ./fylr/resources
 ```
 
-**ATTENTION**
+**ATTENTION:**
 
-As you have seen, we have manipulated the access rights to the file tree to 'a+rwx' for the data directory of `postgres`, `minio`, `elastic` and `sqlite`. Since `elastic`, `postgres`, `minio` and `sqlite` need permissions to write to disk, these permissions are required.
+As you have seen, we do not create directories for persistence of **elasticsearch**, **minio** and **postgres** data. This is because we use **docker-volumes** to persist the data. If you want to keep the data on your host as a volume mapping, you will need to create the directories yourself.
 
 ## configuration
 

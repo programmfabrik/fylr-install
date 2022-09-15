@@ -1,3 +1,13 @@
+## Our system environemnt allows us to overwrite the fylr.yml. All variables are read in
+## upper-case. For the path to deeper variables, use "_" as separator. Supported
+## types: string, []string. To fill []string, use a JSON array.
+##
+## Example:
+## FYLR_DB_DSN="host=localhost port=5432 user=fylr dbname=test"
+## FYLR_DB_DRIVER="postgres"
+## FYLR_EXAMPLE_ARRAY='["a", "b", "c"]'
+##
+## Use --env-prefix on the command line to overwrite the FYLR_ default
 fylr:
   # name of the instance (mandatory). Its used as prefix for the bucket
   # names and elastic indexes.
@@ -40,7 +50,60 @@ fylr:
       # config. The empty base config uses defaults which are defined in
       # resources/baseconfig/baseconfig.yml. Unset keys (from a partial base
       # config file), are set to their defaults.
-      config: ""
+      configFile: ""
+      # Inline base config. Works like configFile but used the inlined
+      # baseconfig setting in this .yml file. Runs after configFile, so everything
+      # in config overwrites settings from configFile. Default is empty.
+      config:
+        system:
+          config:
+            purge:
+              allow_purge: true
+              purge_storage: true
+            email:
+              from: no-reply@example.com
+              server_addr: postfix-pfx-1.postfix.svc:25
+            location_defaults:
+              originals: S3
+              versions: S3
+              backups: localstorage
+      # preconfigure locations for empty databases
+      locations:
+        # the location's name can be any string which you choose
+        #
+        # Inside the storage location fylr will create a structure like this:
+        #
+        # [prefix/]fylr-UUID/originals
+        # [prefix/]fylr-UUID/versions
+        # [prefix/]fylr-UUID/backups
+        #
+        # The driver "file" will create directories inside the configured
+        # top level directory but never remove them. So, if you use purge
+        # a lot, FYLR will leave empty directories on disk.
+        localstorage:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: "apitest/"
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: true
+          config:
+            file:
+              dir: "/mnt/backups/fylr"
+        S3:
+          kind: s3
+          prefix: "apitest/"
+          allow_purge: true
+          config:
+            s3:
+              bucket: my-fylr-bucket
+              endpoint: "s3.example.com:9000"
+              accesskey: "access-key"
+              secretkey: "secret-key"
+              region: "us-east-1"
+              ssl: false
 
   plugin:
     # load plugins at startup. the loader crawls the given directories
@@ -117,6 +180,7 @@ fylr:
         # tokens. If unset, a random string is used. If multiple fylr server are
         # serving the same instance, the signingSecret needs to be configured.
         # The format is a 32-byte string.
+        #    openssl rand -hex 16
         signingSecret: "d4b207ce131411ed8c7300155dd22658"
         # map with pre-configured client, use for the webapp
         clients:
@@ -173,5 +237,5 @@ fylr:
         api: "http://fylr-api:8081"
         backend: "http://fylr-backend:8082"
       # http basic auth for all access to the webfrontend (key=username, value=password)
-      basicAuth:
-        root: 0568ba06146148918f9ed6f8fcb44904
+      #basicAuth:
+      #  root: 0568ba06146148918f9ed6f8fcb44904
