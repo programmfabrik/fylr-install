@@ -1,4 +1,31 @@
-## How to add the data of an easydb 5 to an empty fylr
+# How to add the data of an easydb 5 to a fylr
+
+## Preparations
+
+You may or may not want to prepare some of the following:
+
+* Allow purging in your fylr instance. Either in a fylr.yml:
+
+```
+fylr:
+  allowpurge: true
+  db:
+    init:
+      config:
+        system:
+          config:
+            purge:
+              allow_purge: true
+              purge_storage: true
+```
+
+* Or in the frontend in URL`/configmanager`: `Development`: `Purge`: Check `Allow [...]` and `Delete [...]`. To not loose these settings while purging, also download and upload them as described in the next point.
+
+* In case you want to override defaults during purge: Download the base config containing your settings in fylr web-frontend (URL`/configmanager`: gear symbol at the bottom), to later upload it during and with `fylr restore --purge --base-config=DOWNLOADED_FILE`.
+
+* In case you want to restore without purge (This would be atypical): Upload the data model into fylr. (`fylr restore --purge` does the upload of the data model for you).
+
+## Backup easydb5
 
 1. Surf to your fylr and add to the URL: /inspect/backup/
 
@@ -6,7 +33,9 @@
 
 2. Fill in the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `OAuth2` is not selected, as easydb5 does not know OAuth. Click the button `backup`.
 
-3. Fill in the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
+## Restore into fylr
+
+Fill in the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
   * This will delete the data in fylr. And the data model.
 
@@ -37,7 +66,7 @@ fylr:
 
   *  Click the button `restore`.
 
-## Command Line
+# Command Line
 
 If you want to access the backup via command line:
 
@@ -48,24 +77,24 @@ cd /tmp/fylrctrl
 
 * The directory `/tmp/fylrctrl` could also be used for a bind mount if you need space for a larger backup.
 
-At the end of each backup and restore log there is the command line used. After checking paths and passwords it can be executed by hand in the container:
+Each backup and restore log shows at the end, which command line was used. After checking paths and passwords it can be executed by hand in the container:
 
 ```
 docker exec -ti fylr-server /bin/sh
 cd /tmp/fylrctrl
-/fylr/bin/fylrctl restore [...]
+fylr restore [...]
 ```
 
 * If you use this to continue an aborted restore then replace `--purge` with `--continue`.
 
-* There is also help with `fylrctl --help`.
+* There is also help with `fylr restore --help`.
 
 * Examples as a starting point:
 
 ```
 docker exec -ti fylr-server /bin/sh
 cd /tmp/fylrctrl
-/fylr/bin/fylrctl backup --server https://easydb.example.com/api/v1 \
+fylr backup --server https://easydb.example.com/api/v1 \
  --login root --password '*' --dir backup1 --log backup1/backup.log \
  --chunk 100 --size 1000 --limit 0 --compression 9 \
  --purge
@@ -76,7 +105,7 @@ cd /tmp/fylrctrl
 ```
 docker exec -ti fylr-server /bin/sh
 cd /tmp/fylrctrl
-/fylr/bin/fylrctl restore --server http://localhost:8080/api/v1 --login root --password '*' \
+fylr restore --server http://localhost:8080/api/v1 --login root --password '*' \
  -m backup1/manifest.json --chunk 100 --clientId web-client --clientSecret foo \
  --clientTokenUrl http://localhost:8080/api/oauth2/token \
  --limit 0 --upload-parallel 4 --timeout 15 --log backup1/restore.log \
