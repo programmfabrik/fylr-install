@@ -1,6 +1,6 @@
 # test fylr.exe
 
-1. Download `http://dev-box.programmfabrik.de/fylr.exe-8.zip` (more than 500 MB)
+1. Download `http://dev-box.programmfabrik.de/fylr.exe-9.zip` (more than 500 MB)
 
 2. Extract the zip file and read the included README.md.
 
