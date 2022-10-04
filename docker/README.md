@@ -26,7 +26,7 @@ Our recommendation is to create the following directory tree to run fylr:
 The following commands help you to set up this directory tree:
 
 ```bash
-mkdir -p ./fylr/config ./fylr/resources
+mkdir -p fylr/config/fylr fylr/config/execserver fylr/resources
 ```
 
 **ATTENTION:**
