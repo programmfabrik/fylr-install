@@ -2,7 +2,7 @@
 
 * [container desktop](desktop/README.md): Set up the fylr container on your desktop
 
-* [container server](docker/README.md): Set up fylr container on a server: will be linked when updated
+* [container server](docker/README.md): Set up fylr container on a server
 
 * [kubernetes](kubernetes/README.md): Set up fylr via Kubernetes
 
