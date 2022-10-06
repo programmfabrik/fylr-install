@@ -190,7 +190,8 @@ fylr:
             clientSecret: $2y$12$3ULi66opx7/YjgDLmaKsQeoEJVtGSz6BTRUEqyPGK2SMRi0pNNwlO # foo
             # this must point to the public URL or the webapp
             # ending in /oauth2/callback
-            redirectURL: https://<external-url>/oauth2/callback
+            redirectURIs: 
+              - https://<external-url>/oauth2/callback
             # the scopes this client needs to be granted
             # offline is mandatory to issue refresh tokens
             # others will be used in rights management

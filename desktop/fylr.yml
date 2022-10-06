@@ -83,12 +83,14 @@ fylr:
           web-client:
             clientID: web-client
             clientSecret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
-            redirectURL: http://localhost:8080/oauth2/callback
+            redirectURIs:
+              - http://localhost:8080/oauth2/callback
             scopes: ["read", "write", "offline"]
           app-client:
             clientID: app-client
             clientSecret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
-            redirectURL: fylr.app.scheme:///
+            redirectURIs:
+              - fylr.app.scheme:///
             scopes: ["read", "write", "offline"]
     backend:
       inspect:
