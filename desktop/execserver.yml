@@ -115,6 +115,14 @@ fylr:
           commands:
             fylr_pdf2pages:
               prog: "fylr_pdf2pages"
+              # fylr_* utils use other programs to do their job. These
+              # programs must be either found in the $PATH of the OS or
+              # passed in by environment in the form of FYLR_CMD_<prog>
+              # The <prog> is the program name (upper case)
+              #
+              # In case fylr_metadata is not in the PATH:
+              #env:
+              #  - FYLR_CMD_FYLR_METADATA=../../utils/fylr_metadata/fylr_metadata
             fylr_metadata:
               prog: "fylr_metadata"
         xslt:
