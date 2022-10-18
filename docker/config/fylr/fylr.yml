@@ -128,13 +128,13 @@ fylr:
             # Higher costs than 10 could significantly increase operating costs, but also increase safety.
             # generate a bcrypted secret with:
             #   htpasswd -nbBC 10 "" my-new-webclient-password | tr -d ':\n'
-            clientSecret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
+            secret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
             redirectURIs:
               - http://fylr.localhost:8080/oauth2/callback
             scopes: ["read", "write", "offline"]
           app-client:
             clientID: app-client
-            clientSecret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
+            secret: $2y$12$vHCyS42d0RpICdKoXKP0J.w1cschxjf.Ln43I9NYyl1u0W7vevjQS
             redirectURIs:
               - fylr.app.scheme:///
             scopes: ["read", "write", "offline"]

@@ -186,8 +186,8 @@ fylr:
         clients:
           # client-id
           web-client:
-            # clientSecret must be given as bcrypt hash
-            clientSecret: $2y$12$3ULi66opx7/YjgDLmaKsQeoEJVtGSz6BTRUEqyPGK2SMRi0pNNwlO # foo
+            # secret must be given as bcrypt hash
+            secret: $2y$12$3ULi66opx7/YjgDLmaKsQeoEJVtGSz6BTRUEqyPGK2SMRi0pNNwlO # foo
             # this must point to the public URL or the webapp
             # ending in /oauth2/callback
             redirectURIs: 
