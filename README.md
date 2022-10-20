@@ -45,14 +45,33 @@ old:
            redirectURL: http://example
 ```
 
-## 22.08.2022
+## 22.8.2022
 
 fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration concerning the execserver. Here are the updated example configurations:
 
 * [desktop/execserver.yml](desktop/execserver.yml)
 * [docker/config/execserver/fylr.yml](docker/config/execserver/fylr.yml)
 
-## 09.05.2022
+```
+fylr:
+  services:
+    execserver:
+      services:
+        pdf2pages:
+          commands:
+            fylr_pdf2pages:
+              prog: "fylr_pdf2pages"
+              # fylr_* utils use other programs to do their job. These
+              # programs must be either found in the $PATH of the OS or
+              # passed in by environment in the form of FYLR_CMD_<prog>
+              # The <prog> is the program name (upper case)
+              #
+              # In case fylr_metadata is not in the PATH:
+              env:
+                - FYLR_CMD_FYLR_METADATA=../../utils/fylr_metadata/fylr_metadata
+```
+
+## 9.5.2022
 
 On 09/05/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
 
