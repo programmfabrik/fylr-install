@@ -24,8 +24,7 @@ fylr:
     api:
       oauth2Server:
         clients:
-          EXAMPLE:
-            # secret must be given as bcrypt hash
+          EXAMPLECLIENT:
             secret:
 ```
 
