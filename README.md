@@ -46,6 +46,13 @@ old:
            redirectURL: http://example
 ```
 
+## 22.08.2022
+
+fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration concerning the execserver. Here are the updated example configurations:
+
+* [desktop/execserver.yml](desktop/execserver.yml)
+* [docker/config/execserver/fylr.yml](docker/config/execserver/fylr.yml)
+
 ## 09.05.2022
 
 On 09/05/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
@@ -120,10 +127,3 @@ For existing installations, you may need to change the configuration. Even if th
 
 ![Location Manager](docs/storage_location_manager.png)
 
-## 08.22.2022
-
-On 8/22/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
-
-* [desktop/execserver.yml](desktop/execserver.yml)
-* [docker/config/execserver/fylr.yml](docker/config/execserver/fylr.yml)
-* [kubernetes/execserver/config/execserver.yaml](kubernetes/execserver/config/execserver.yaml)
