@@ -8,7 +8,7 @@
 
 * [fylr.exe](windows/README.md): Set up fylr.exe on a Windows desktop
 
-Screenshot of running fylr webfrontend:
+After installation you should have this running fylr webfrontend:
 
 ![fylr-preview](assets/fylr-preview.png)
 
