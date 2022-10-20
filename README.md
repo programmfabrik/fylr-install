@@ -14,6 +14,38 @@ Screenshot of running fylr webfrontend:
 
 ## Changelog
 
+## 10.2022
+
+There has been a rename from clientSecret to secret in `fylr.yml` ...
+
+```
+fylr:
+  services:
+    api:
+      oauth2Server:
+        clients:
+          EXAMPLE:
+            # secret must be given as bcrypt hash
+            secret:
+```
+
+## 9.2022
+
+There has been a change in the `fylr.yml` ...
+
+new:
+
+```
+           redirectURIs:
+             - http://example
+```
+
+old:
+
+```
+           redirectURL: http://example
+```
+
 ## 09.05.2022
 
 On 09/05/2022, fylr received a revision that removes backward compatibility. This is an important change and requires you to update your configuration.
