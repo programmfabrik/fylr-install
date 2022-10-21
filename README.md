@@ -4,7 +4,7 @@
 
 * [container server](docker/README.md): Set up fylr container on a server
 
-* [kubernetes](kubernetes/README.md): We provide a helm chart (starting in November 2022) [there](https://github.com/programmfabrik/fylr-helm).
+* [kubernetes](https://github.com/programmfabrik/fylr-helm): We provide a helm chart (starting in November 2022) [there](https://github.com/programmfabrik/fylr-helm).
 
 * [fylr.exe](windows/README.md): Set up fylr.exe on a Windows desktop
 
