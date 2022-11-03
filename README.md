@@ -1,18 +1,24 @@
 # fylr installation methods
 
-* [container desktop](desktop/README.md): Set up the fylr container on your desktop
+* [container desktop](desktop/README.md): Set up the fylr container on your desktop (With a container engine like docker, for Linux containers)
 
-* [container server](docker/README.md): Set up fylr container on a server
+* [container server](docker/README.md): Set up fylr container on a server (With a container engine like docker, for Linux containers)
 
 * [kubernetes](https://github.com/programmfabrik/fylr-helm): We provide a helm chart (starting in November 2022) [there](https://github.com/programmfabrik/fylr-helm).
 
-* [fylr.exe](windows/README.md): Set up fylr.exe on a Windows desktop
+* [fylr.exe](windows/README.md): Run fylr.exe on Windows
+
+## Recommended hardware
+
+4 cores and 16 GB RAM. For more than 100k assets, 32 GB RAM. (requirements depend heavily on data model and usage)
+
+## Result 
 
 After installation you should have this running fylr webfrontend:
 
 ![fylr-preview](assets/fylr-preview.png)
 
-## Changelog
+# Changelog
 
 ## 10.2022
 
