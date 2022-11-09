@@ -1,0 +1,64 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+#env:
+#  go_version: 1.19
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GOPRIVATE: "github.com/programmfabrik/*"
+      FYLR_BOT_ACCESS_TOKEN: ${{ secrets.FYLR_BOT_PERSONAL_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Replace https://github.com
+        shell: bash
+        run: git config --global url."https://fylr-bot:$FYLR_BOT_ACCESS_TOKEN@github.com/".insteadOf "https://github.com/"
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Extract tag version
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Generate resources
+        run: make generate
+
+      - name: Make zip folder
+        run: mkdir /tmp/fylr_windows
+
+      - name: Move resources folder to zip folder
+        run: mv resources /tmp/fylr_windows/
+
+      - name: Make webfrontend
+        run: TODO
+
+      - name: Add magick.exe 
+        run: wget -q -O /tmp/fylr_windows/magick.exe http://dev-box.programmfabrik.de/magick.exe
+
+      - name: get python
+        run: wget -q -O /tmp/python.zip http://dev-box.programmfabrik.de/python.zip
+
+      - name: unzip python
+        working-directory: /tmp
+        run: unzip python.zip
+
+      - name: move python
+        working-directory: /tmp
+        run: mv python zip/
+
+      - name: Create zip
+        working-directory: /tmp
+        run: zip fylr_windows.zip fylr_windows
+
+      - name: publish zip
+        run: TODO
+
