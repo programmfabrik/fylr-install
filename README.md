@@ -8,6 +8,10 @@
 
 * [fylr.exe](windows/README.md): Run fylr.exe on Windows
 
+## Contact us
+
+For Issues and questions please write to support@programmfabrik.de
+
 ## Recommended hardware
 
 4 cores and 16 GB RAM. For more than 100k assets, 32 GB RAM. (requirements depend heavily on data model and usage)
