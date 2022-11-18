@@ -51,7 +51,7 @@ The following commands also assume that you are in the fylr directory. (`cd fylr
 
 ```bash
 apt-get install docker-compose
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml -o docker-compose.yml
 docker-compose up
 ```
 
