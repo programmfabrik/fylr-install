@@ -9,7 +9,7 @@ echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_elasticearch.conf
 sysctl -p /etc/sysctl.d/99-memory_for_elasticearch.conf
 ```
 
-The following commands assume a Debian or Ubuntu server as an example.
+The following commands assume a Debian or Ubuntu server as an example and a bash shell.
 
 ## Installation
 
@@ -31,7 +31,7 @@ mkdir -p fylr/config/fylr fylr/config/execserver fylr/resources
 
 **ATTENTION:**
 
-As you have seen, we do not create directories for persistence of **elasticsearch**, **minio** and **postgres** data. This is because we use **docker-volumes** to persist the data. If you want to keep the data on your host as a volume mapping, you will need to create the directories yourself.
+As you have seen, we do not create directories for persistence of **elasticsearch**, **minio** and **postgres** data. If you want to keep the data on your host as a volume mapping, you will need to create the directories yourself.
 
 ## configuration
 
@@ -60,6 +60,15 @@ docker-compose up
 You can now surf to your fylr webfrontend at Port 8080
 
 Default login is root with password admin. Please replace with something secure.
+
+## Storage
+
+The included s3 storage will not have a bucket yet, so do not forget to...
+* surf to port 9001
+* create a bucket and access policy
+* add them into the fylr web frontend: gears symbol -> Location manager:
+
+![location-manager](flyr-localtion-manager-s3-minio.png)
 
 ## Troubleshooting
 
