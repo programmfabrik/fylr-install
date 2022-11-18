@@ -64,9 +64,9 @@ Default login is root with password admin. Please replace with something secure.
 ## Storage
 
 The included s3 storage will not have a bucket yet, so do not forget to...
-1. surf to port 9001 (credentials are in `docker-compose.yml`: `minio`:`minio123`)
+1. surf to minio management on port 9001 (credentials are in `docker-compose.yml`: `minio`:`minio123`)
 2. create a bucket and access policy
-3. add them into the fylr web frontend: gears symbol -> Location manager:
+3. surf to fylr on port 8080 and add them: gears symbol -> Location manager:
 
 <img src="flyr-localtion-manager-s3-minio.png" width="398">
 
