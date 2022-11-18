@@ -1,12 +1,12 @@
 # fylr installation methods
 
-* [container desktop](desktop/README.md): Set up the fylr container on your desktop (With a container engine like docker, for Linux containers)
+* [container desktop](desktop/README.md): To set up the fylr container on your desktop (With a container engine like docker, for Linux containers).
 
-* [container server](docker/README.md): Set up fylr container on a server (With a container engine like docker, for Linux containers)
+* [container server](docker/README.md): To set up fylr container on a server (With a container engine like docker, for Linux containers).
 
-* [kubernetes](https://github.com/programmfabrik/fylr-helm): We provide a helm chart (starting in November 2022) [there](https://github.com/programmfabrik/fylr-helm).
+* [kubernetes](https://github.com/programmfabrik/fylr-helm): See our [helm chart](https://github.com/programmfabrik/fylr-helm).
 
-* [fylr.exe](windows/README.md): Run fylr.exe on Windows
+* [fylr.exe](windows/README.md): To run fylr.exe on Windows.
 
 ## Contact us
 
