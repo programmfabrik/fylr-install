@@ -1,15 +1,17 @@
 # Requirements
 
 * Since fylr requires a fully running installation of docker, refer to it's official documentation [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
+* The containers are linux containers, so you need a linux server or linux virtual machine.
 * 16 GB of RAM
+
+The following commands assume a Debian or Ubuntu server as an example and a bash shell.
+
 * Memory setting for elastic search:
 
 ```bash
 echo "vm.max_map_count=262144" >> /etc/sysctl.d/99-memory_for_elasticearch.conf
 sysctl -p /etc/sysctl.d/99-memory_for_elasticearch.conf
 ```
-
-The following commands assume a Debian or Ubuntu server as an example and a bash shell.
 
 ## Installation
 
@@ -20,8 +22,9 @@ Our recommendation is to create the following directory tree to run fylr:
   /config
     /execserver
     /fylr
-  /docker-compose.yml
 ```
+
+For orientation: The `docker-compose.yml` file will be put in the upper `fylr` directory, later.
 
 The following commands help you to set up this directory tree:
 
@@ -47,7 +50,7 @@ curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/c
 
 Much of the setup is encapsulated in a docker-compose file. Download and use it like this:
 
-The following commands also assume that you are in the fylr directory. (`cd fylr`)
+The following commands also assume that you are in the fylr directory.
 
 ```bash
 apt-get install docker-compose
@@ -59,7 +62,7 @@ docker-compose up
 
 You can now surf to your fylr webfrontend at Port 8080
 
-Default login is root with password admin. Please replace with something secure.
+Default login is `root` with password `admin`. Please replace with a secure password.
 
 ## Storage
 
