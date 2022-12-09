@@ -42,6 +42,8 @@ fylr:
     dsn: "data\\sqlite.db"
 ```
 
+The zip file for windows does not contain a fylr_windows directory any more but fylr.exe (etc.) on the uppermost level.
+
 ## 10.2022
 
 There has been a rename from clientSecret to secret in `fylr.yml` ...
