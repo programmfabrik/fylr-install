@@ -24,6 +24,24 @@ After installation you should have this running fylr webfrontend:
 
 # Changelog
 
+## 11.2022
+
+If you used fylr.exe with sqlite, then your old fylr.yml, ...
+
+```
+fylr:
+  db:
+    dsn: "C:data\\sqlite.db"
+```
+
+... now should be changed to a relative path without drive letter:
+
+```
+fylr:
+  db:
+    dsn: "data\\sqlite.db"
+```
+
 ## 10.2022
 
 There has been a rename from clientSecret to secret in `fylr.yml` ...
