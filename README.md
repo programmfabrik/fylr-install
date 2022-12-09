@@ -24,7 +24,7 @@ After installation you should have this running fylr webfrontend:
 
 # Changelog
 
-## 11.2022
+## 12.2022
 
 If you used fylr.exe with sqlite, then your old fylr.yml, ...
 
