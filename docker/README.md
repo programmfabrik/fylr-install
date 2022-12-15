@@ -57,6 +57,13 @@ apt-get install docker-compose
 curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml -o docker-compose.yml
 docker-compose up
 ```
+Ctrl and c stops the services again.
+
+If you are satisfied you can let it run in the background with
+
+```bash
+docker-compose up -d
+```
 
 ## Result
 
