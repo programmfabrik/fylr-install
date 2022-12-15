@@ -88,6 +88,9 @@ The included s3 storage will not have a bucket yet, so do not forget to...
 
 * When elasticsearch does not work, make sure you used `sysctl` as shown above.
 
+Such messages can be safely ignored:
+> could not obtain lock on row in relation
+
 ## Further reading
 
 * [Import an easydb into fylr](../customization/restore-easydb5.md)
