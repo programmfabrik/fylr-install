@@ -77,6 +77,9 @@ Default login is `root` with password `admin`. Please replace with a secure pass
 Such messages can be safely ignored:
 > could not obtain lock on row in relation
 
+> WRN Error occurred in NewIntrospectionRequest error=request_unauthorized Env=api
+> WRN Accepting token failed error
+
 ## Further reading
 
 * [Import an easydb into fylr](../customization/restore-easydb5.md)

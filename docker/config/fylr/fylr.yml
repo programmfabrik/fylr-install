@@ -6,6 +6,8 @@ fylr:
 
   logger:
     noColor: true
+    level: info
+    timeFormat: "2006-01-02T15:04:05Z07:00"
 
   db:
     maxOpenConns: 20
@@ -79,6 +81,10 @@ fylr:
     parallel: 2
     pluginJobTimeoutSec: 240
     connectTimeoutSec: 120
+    addresses:
+      - http://execserver:8070/?pretty=true
+    callbackBackendInternalURL: "http://fylr.localhost:8082"
+    callbackApiInternalURL: "http://fylr.localhost:8081"
 
   plugins:
     - "/fylr/files/plugins/easydb"
@@ -101,7 +107,7 @@ fylr:
         # tokens. If unset, a random string is used. If multiple fylr server are
         # serving the same instance, the signingSecret needs to be configured.
         # The format is a 32-byte string.
-        signingSecret: "d4b207ce131411ed8c7300155dd22658"
+        signingSecret: "EXAMPLEe131411ed8c7300155dd22658"
         clients:
           web-client:
             clientID: web-client
@@ -126,3 +132,146 @@ fylr:
           fylrctl: fylrctl
           psql: psql
           sqlite3: sqlite3
+
+    execserver:
+      addr: ":8070"
+      tempDir: /tmp/fylr
+      waitgroups:
+        a:
+          processes: 6
+        b:
+          processes: 4
+        c:
+          processes: 6
+      services:
+        python3:
+          waitgroup: b
+          commands:
+            python3:
+              prog: "python3"
+        node:
+          waitgroup: b
+          commands:
+            node:
+              prog: "node"
+        convert:
+          waitgroup: a
+          commands:
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        ffmpeg:
+          waitgroup: a
+          commands:
+            ffmpeg:
+              prog: ffmpeg
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffmpeg version 5[\\.0-9]+ Copyright"
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            ffprobe:
+              prog: ffprobe
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        soffice:
+          waitgroup: c
+          commands:
+            soffice:
+              prog: soffice
+              startupCheck:
+                args:
+                  - "--headless"
+                  - "--invisible"
+                  - "--version"
+                regex: "LibreOffice 7[.0-9]+"
+            convert:
+              prog: "convert"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            composite:
+              prog: "composite"
+              env:
+                - "OMP_NUM_THREADS=2"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version: ImageMagick 7..*?https://imagemagick.org"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        pdf2pages:
+          waitgroup: a
+          commands:
+            fylr_pdf2pages:
+              prog: "fylr_pdf2pages"
+            fylr_metadata:
+              prog: "fylr_metadata"
+        xslt:
+          waitgroup: a
+          commands:
+            xsltproc:
+              prog: "xsltproc"
+        copy:
+          waitgroup: a
+          commands:
+            fylr_copy:
+              prog: "fylr_copy"
+        iiif:
+          waitgroup: a
+          commands:
+            fylr_iiif:
+              prog: "fylr_iiif"
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "Version v*"
+        metadata:
+          waitgroup: a
+          commands:
+            fylr_metadata:
+              prog: "fylr_metadata"
+            ffprobe:
+              prog: ffprobe
+              startupCheck:
+                args:
+                  - "-version"
+                regex: "ffprobe version 5[\\.0-9]+ Copyright"
+
