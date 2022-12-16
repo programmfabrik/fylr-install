@@ -4,8 +4,7 @@
 * The below mentioned containers are linux containers, so you need a linux server or linux virtual machine.
 * fylr requires a running container engine. And in the here proposed installation method, we use docker-compose. So refer to docker's official documentation: [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
 * Also install docker-compose, for example under Debian Linux by `apt-get install docker-compose`.
-* Currently, you need to provide a service that listens at port 443 and encrypts via https, as a proxy to fylr at port 127.0.0.1:8080.
- * This will be changed until early 2023. flyr will then directly listen at port 443 and retrieve a certificate from letsencrypt.
+* Currently, you need to provide a service that listens at port 443 and encrypts via https, as a proxy to fylr at port 127.0.0.1:8080. This will be changed until early 2023. flyr will then directly listen at port 443 and retrieve a certificate from letsencrypt.
 
 The following commands assume a Debian or Ubuntu server as an example and a bash shell.
 
@@ -51,6 +50,7 @@ The following commands also assume that you are in the `/srv/fylr` directory.
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/docker-compose.yml -o docker-compose.yml
+
 docker-compose up
 ```
 
