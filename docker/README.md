@@ -26,7 +26,7 @@ mkdir /srv/fylr ; cd /srv/fylr
 Create the following directories for the persistent data and configuration:
 
 ```bash
-mkdir -p config/fylr config/execserver postgres assets backups elasticsearch
+mkdir -p config/fylr postgres assets backups elasticsearch
 chown 1000 assets backups elasticsearch
 chown  999 postgres
 ```
@@ -37,7 +37,6 @@ We suggest that you use our example configuration as a starting point:
 
 ```bash
 curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/fylr/fylr.yml -o config/fylr/fylr.yml
-curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/config/execserver/fylr.yml -o config/execserver/fylr.yml
 ```
 
 Edit `config/fylr/fylr.yml` and replace strings with `EXAMPLE`.
