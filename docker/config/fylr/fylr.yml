@@ -1,4 +1,6 @@
 fylr:
+  externalURL: "https://EXAMPLE.COM"
+
   debug:
     skipTerms: false
 
@@ -26,26 +28,11 @@ fylr:
           config:
             purge:
               allow_purge: true
-              purge_storage: true
+              purge_storage: false
             location_defaults:
-              originals: S3
-              versions: S3
-              backups: localfile
-
-      # To setup a purgeable system with default storage locations
-      # locfile & locs3, configure the following. The location_default map
-      # accepts location ids as well as names:
-      #
-      # config:
-      #   system:
-      #     config:
-      #       purge:
-      #         allow_purge: true
-      #         purge_storage: true
-      #       location_defaults:
-      #         originals: locfile
-      #         versions: locs3
-      #         backups: locfile
+              originals: assets
+              versions: assets
+              backups: backups
 
       # preconfigure locations for empty databases
       locations:
@@ -56,39 +43,32 @@ fylr:
         # [prefix/]fylr-UUID/originals
         # [prefix/]fylr-UUID/versions
         # [prefix/]fylr-UUID/backups
-        #
-        # The driver "file" will create directories inside the configured
-        # top level directory but never remove them. So, if you use purge
-        # a lot, FYLR will leave empty directories on disk.
-        localfile:
+        assets:
           # The kind is either "file" or "s3" (see below)
           kind: file
           # Each location can configure a prefix which will
           # be attached before the file to be created
-          prefix: "postgres/"
+          prefix: ""
           # Set to true if files in this location can be
           # purged by FYLR (if the purge api call is used)
-          allow_purge: true
+          allow_purge: false
           config:
             file:
-              dir: "/fylr/files/backups"
-        S3:
-          kind: s3
-          prefix: "postgres/"
-          allow_purge: true
+              # keep in mind: this is a path inside of the container
+              dir: "/srv"
+        backups:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: ""
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: false
           config:
-            s3:
-              bucket: postgres
-              accesskey: "minio"
-              secretkey: "minio123"
-              region: "us-east-1"
-              ssl: false
-
-  s3:
-    accessKeyID: "minio"
-    secretAccessKey: "minio123"
-    bucketLocation: "us-east-1"
-    ssl: false
+            file:
+              # keep in mind: this is a path inside of the container
+              dir: "/fylr/files/backups"
 
   elastic:
     parallel: 4
@@ -130,7 +110,7 @@ fylr:
             #   htpasswd -nbBC 10 "" my-new-webclient-password | tr -d ':\n'
             secret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
             redirectURIs:
-              - http://fylr.localhost:8080/oauth2/callback
+              - https://EXAMPLE.COM/oauth2/callback
             scopes: ["read", "write", "offline"]
           app-client:
             clientID: app-client

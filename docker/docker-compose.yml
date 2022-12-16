@@ -15,7 +15,7 @@ services:
         hard: -1
     command: /bin/sh -c "./bin/elasticsearch-plugin list | grep -q analysis-icu || ./bin/elasticsearch-plugin install analysis-icu; /usr/local/bin/docker-entrypoint.sh"
     volumes:
-      - elastic:/usr/share/elasticsearch/data
+      - "./elasticsearch:/usr/share/elasticsearch/data"
     networks:
       - fylr
 
@@ -29,36 +29,16 @@ services:
       POSTGRES_PASSWORD: 'fylr'
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - "./postgres:/var/lib/postgresql/data"
     command: >
       -c work_mem=64MB
       -c maintenance_work_mem=32MB
       -c max_wal_size=512MB
-    depends_on:
-      - fylr-elastic
-    networks:
-      - fylr
-
-  fylr-minio:
-    image: "minio/minio"
-    container_name: "fylr-minio"
-    environment:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: minio123
-    volumes:
-      - minio:/data
-    ports:
-      #- 9000:9000
-      - 9001:9001 # minio web-console interface
-    command: server /data --console-address ":9001"
-    depends_on:
-      - fylr-elastic
-      - fylr-postgres
     networks:
       - fylr
 
   execserver:
-    image: docker.fylr.io/fylr/fylr:v6.1.0-beta.5
+    image: docker.fylr.io/fylr/fylr:v6.1.0
     container_name: execserver
     restart: always
     environment:
@@ -68,20 +48,18 @@ services:
     depends_on:
       - fylr-elastic
       - fylr-postgres
-      - fylr-minio
     networks:
       - fylr
     volumes:
       - "./config/execserver:/fylr/config"
 
   fylr:
-    image: docker.fylr.io/fylr/fylr-server:v6.1.0-beta.5
+    image: docker.fylr.io/fylr/fylr-server:v6.1.0
     hostname: fylr.localhost
     container_name: fylr
     restart: always
     environment:
       FYLR_NAME: "postgres"
-      FYLR_EXTERNALURL: "http://fylr.localhost:8080"
       FYLR_SERVICES_WEBAPP_ADDR: ":8080"
       FYLR_SERVICES_WEBAPP_REVERSEPROXY_API: "http://fylr.localhost:8081"
       FYLR_SERVICES_WEBAPP_REVERSEPROXY_BACKEND: "http://fylr.localhost:8082"
@@ -91,7 +69,6 @@ services:
       FYLR_EXECSERVER_CALLBACKBACKENDINTERNALURL: "http://fylr.localhost:8082"
       FYLR_EXECSERVER_CALLBACKAPIINTERNALURL: "http://fylr.localhost:8081"
       FYLR_ELASTIC_ADDRESSES: '["http://fylr-elastic:9200"]'
-      FYLR_DB_INIT_LOCATIONS_S3_CONFIG_S3_ENDPOINT: "fylr-minio:9000"
       FYLR_DB_DRIVER: "postgres"
       FYLR_DB_DSN: "postgres://fylr:fylr@fylr-postgres:5432/fylr?sslmode=disable"
       FYLR_LOGGER_LEVEL: info
@@ -103,19 +80,13 @@ services:
     depends_on:
       - fylr-elastic
       - fylr-postgres
-      - fylr-minio
       - execserver
     networks:
       - fylr
     volumes:
-      - fylrbackups:/fylr/files/backups
+      - "./backups:/fylr/files/backups"
       - "./config/fylr:/fylr/config"
+      - "./assets:/srv"
 
 networks:
   fylr:
-
-volumes:
-  minio:
-  elastic:
-  postgres:
-  fylrbackups:
