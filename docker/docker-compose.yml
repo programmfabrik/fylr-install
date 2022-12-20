@@ -42,20 +42,6 @@ services:
     hostname: fylr.localhost
     container_name: fylr
     restart: always
-    environment:
-      FYLR_NAME: "postgres"
-      FYLR_SERVICES_WEBAPP_ADDR: ":8080"
-      FYLR_SERVICES_WEBAPP_REVERSEPROXY_API: "http://fylr.localhost:8081"
-      FYLR_SERVICES_WEBAPP_REVERSEPROXY_BACKEND: "http://fylr.localhost:8082"
-      FYLR_SERVICES_API_ADDR: ":8081"
-      FYLR_SERVICES_BACKEND_ADDR: ":8082"
-      FYLR_ELASTIC_ADDRESSES: '["http://elasticsearch:9200"]'
-      FYLR_DB_DRIVER: "postgres"
-      FYLR_DB_DSN: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
-      FYLR_LOGGER_LEVEL: info
-      # FYLR_ELASTIC_LOGGER: "Text"
-      FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
-      FYLR_ENCRYPTIONKEY: "bac910d5cca29f8ddec415fd80bdbe25"
     ports:
       - "8080:8080" # webfrontend
     depends_on:

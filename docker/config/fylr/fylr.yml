@@ -1,5 +1,8 @@
 fylr:
   externalURL: "https://EXAMPLE.COM"
+  name: "EXAMPLE"
+
+  encryptionKey: "EXAMPLE5cca29f8ddec415fd80bdbe25"
 
   debug:
     skipTerms: false
@@ -10,6 +13,9 @@ fylr:
     timeFormat: "2006-01-02T15:04:05Z07:00"
 
   db:
+    driver: "postgres"
+    dsn: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
+
     maxOpenConns: 20
     maxIdleConns: 10
     # The init block is used to pre-fill the database when its created or purged.
@@ -73,6 +79,8 @@ fylr:
               dir: "/fylr/files/backups"
 
   elastic:
+    addresses:
+    - "http://elasticsearch:9200"
     parallel: 4
     maxMem: 100mb
     objectsPerJob: 1000
@@ -96,12 +104,17 @@ fylr:
 
   services:
     webapp:
+      addr: ":8080"
+      reverseProxy:
+        api: "http://fylr.localhost:8081"
+        backend: "http://fylr.localhost:8082"
       path: "/fylr/files/webfrontend"
       oauth2:
         clientID: web-client
         clientSecret: foo
 
     api:
+      addr: ":8081"
       oauth2Server:
         # This secret is used to sign authorize codes, access and refresh
         # tokens. If unset, a random string is used. If multiple fylr server are
@@ -126,6 +139,7 @@ fylr:
             scopes: ["read", "write", "offline"]
 
     backend:
+      addr: ":8082"
       inspect:
         backup:
           path: /tmp/fylrctrl
