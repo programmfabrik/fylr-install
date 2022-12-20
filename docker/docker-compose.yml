@@ -1,8 +1,8 @@
 version: '3'
 services:
-  fylr-elastic:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
-    container_name: fylr-elastic
+    container_name: elasticsearch
     environment:
       - node.name=fylr-elastic
       - cluster.name=fylr-elastic
@@ -49,7 +49,7 @@ services:
       FYLR_SERVICES_WEBAPP_REVERSEPROXY_BACKEND: "http://fylr.localhost:8082"
       FYLR_SERVICES_API_ADDR: ":8081"
       FYLR_SERVICES_BACKEND_ADDR: ":8082"
-      FYLR_ELASTIC_ADDRESSES: '["http://fylr-elastic:9200"]'
+      FYLR_ELASTIC_ADDRESSES: '["http://elasticsearch:9200"]'
       FYLR_DB_DRIVER: "postgres"
       FYLR_DB_DSN: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
       FYLR_LOGGER_LEVEL: info
@@ -59,7 +59,7 @@ services:
     ports:
       - "8080:8080" # webfrontend
     depends_on:
-      - fylr-elastic
+      - elasticsearch
       - postgresql
     networks:
       - fylr
