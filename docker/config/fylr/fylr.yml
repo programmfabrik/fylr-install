@@ -111,23 +111,19 @@ fylr:
       path: "/fylr/files/webfrontend"
       oauth2:
         clientID: web-client
-        clientSecret: foo
+        clientSecret: EXAMPLE
 
     api:
       addr: ":8081"
       oauth2Server:
-        # This secret is used to sign authorize codes, access and refresh
-        # tokens. If unset, a random string is used. If multiple fylr server are
-        # serving the same instance, the signingSecret needs to be configured.
-        # The format is a 32-byte string.
-        signingSecret: "EXAMPLEe131411ed8c7300155dd22658"
         clients:
+          # key in next line = value of fylr.services.webapp.oauth.clientID
           web-client:
-            clientID: web-client
-            # Higher costs than 10 could significantly increase operating costs, but also increase safety.
-            # generate a bcrypted secret with:
-            #   htpasswd -nbBC 10 "" my-new-webclient-password | tr -d ':\n'
-            secret: $2y$16$MDOkFjSNZdfnVwA3cZSOjuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
+            # Fill in the value of fylr.services.webapp.oauth.clientSecrets
+            # in the next line instead of EXAMPLE and execute it
+            #   htpasswd -nbBC 10 "" EXAMPLE | tr -d ':\n'; echo
+            # and use the result as secret in the following line:
+            secret: $2y$16$EXAMPLEEXAMPLEEXAMPLEuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
             redirectURIs:
               - https://EXAMPLE.COM/oauth2/callback
             scopes: ["read", "write", "offline"]
