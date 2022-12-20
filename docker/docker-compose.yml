@@ -19,9 +19,9 @@ services:
     networks:
       - fylr
 
-  fylr-postgres:
+  postgresql:
     image: postgres:15
-    container_name: fylr-postgres
+    container_name: postgresql
     restart: always
     environment:
       POSTGRES_DB: 'fylr'
@@ -51,7 +51,7 @@ services:
       FYLR_SERVICES_BACKEND_ADDR: ":8082"
       FYLR_ELASTIC_ADDRESSES: '["http://fylr-elastic:9200"]'
       FYLR_DB_DRIVER: "postgres"
-      FYLR_DB_DSN: "postgres://fylr:fylr@fylr-postgres:5432/fylr?sslmode=disable"
+      FYLR_DB_DSN: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
       FYLR_LOGGER_LEVEL: info
       # FYLR_ELASTIC_LOGGER: "Text"
       FYLR_LOGGER_TIMEFORMAT: "2006-01-02T15:04:05Z07:00"
@@ -60,7 +60,7 @@ services:
       - "8080:8080" # webfrontend
     depends_on:
       - fylr-elastic
-      - fylr-postgres
+      - postgresql
     networks:
       - fylr
     volumes:
