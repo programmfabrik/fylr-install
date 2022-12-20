@@ -43,7 +43,8 @@ services:
     container_name: fylr
     restart: always
     ports:
-      - "8080:8080" # webfrontend
+      - "443:443" # main https access to webfrontend
+      - "80:80" # needed to get a https certificate from letsencrypt
     depends_on:
       - elasticsearch
       - postgresql

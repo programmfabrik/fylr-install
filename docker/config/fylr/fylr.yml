@@ -104,7 +104,7 @@ fylr:
 
   services:
     webapp:
-      addr: ":8080"
+      addr: ":443"
       reverseProxy:
         api: "http://fylr.localhost:8081"
         backend: "http://fylr.localhost:8082"
@@ -112,6 +112,11 @@ fylr:
       oauth2:
         clientID: web-client
         clientSecret: EXAMPLE
+      tls:
+        letsEncrypt:
+          email: you@EXAMPLE.COM
+          forwardHttpAddr: ":80"
+          useStagingCA: false
 
     api:
       addr: ":8081"
