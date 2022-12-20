@@ -23,6 +23,62 @@ fylr:
 
 * In case you want to override defaults during purge: Download the base config containing your settings in fylr web-frontend (URL`/configmanager`: gear symbol at the bottom), to later upload it during and with `fylr restore --purge --base-config=DOWNLOADED_FILE`.
 
+* Another way to preserve location configuration during purge & restore is to write it in your fylr.yml. For example:
+```
+fylr:
+  db:
+    # The init block is used to pre-fill the database when its created or purged.
+    init:
+      # Inline base config. Default is empty.
+      config:
+      # E.g. to set up a purgeable system with default storage locations
+      # mylocalfiles & mys3, configure the following. The location_default map
+      # accepts location ids as well as names:
+        system:
+          config:
+            purge:
+              allow_purge: true
+              purge_storage: true
+            location_defaults:
+              originals: mys3
+              versions: mylocalfiles
+              backups: mys3
+
+      # preconfigure locations for empty databases
+      locations:
+        # the location's name can be any string which you choose
+        #
+        # Inside the storage location fylr will create a structure like this:
+        #
+        # [prefix/]fylr-UUID/originals
+        # [prefix/]fylr-UUID/versions
+        # [prefix/]fylr-UUID/backups
+        mylocalfiles:
+          # The kind is either "file" or "s3" (see below)
+          kind: file
+          # Each location can configure a prefix which will
+          # be attached before the file to be created
+          prefix: "myprefix/"
+          # Set to true if files in this location can be
+          # purged by FYLR (if the purge api call is used)
+          allow_purge: true
+          config:
+            file:
+              # path inside the container
+              dir: "/fylr/files/backups"
+        mys3:
+          kind: s3
+          prefix: "myprefix/"
+          allow_purge: true
+          config:
+            s3:
+              bucket: myfylr
+              accesskey: "minio"
+              secretkey: "minio123"
+              region: "us-east-1"
+              ssl: false
+```
+
 * In case you want to restore without purge (This would be atypical): Upload the data model into fylr. (`fylr restore --purge` does the upload of the data model for you).
 
 ## Backup easydb5
