@@ -20,7 +20,7 @@ services:
       - fylr
 
   fylr-postgres:
-    image: postgres:15.1
+    image: postgres:15
     container_name: fylr-postgres
     restart: always
     environment:
