@@ -38,7 +38,7 @@ services:
       - fylr
 
   fylr:
-    image: docker.fylr.io/fylr/fylr:v6.1.0
+    image: docker.fylr.io/fylr/fylr:main
     hostname: fylr.localhost
     container_name: fylr
     restart: always
