@@ -23,6 +23,7 @@ services:
     image: postgres:15
     container_name: postgresql
     restart: always
+    shm_size: 1g
     environment:
       POSTGRES_DB: 'fylr'
       POSTGRES_USER: 'fylr'
