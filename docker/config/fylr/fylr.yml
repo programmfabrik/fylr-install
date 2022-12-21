@@ -101,7 +101,7 @@ fylr:
     #urls:
     #- https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
 
-    # defaults is a map setting defaults for the plugin registration.
+    # the following is used initially only (during first start and after purge)
     # This is configured as map with the plugin name as key.
     defaults:
       # default for fylr_example plugin
@@ -109,7 +109,10 @@ fylr:
         # enable, set to false to disable the plugin, defaults to true
         enabled: false
         # update_policy: automatic, always, never, defaults to automatic
-        update: "never"
+        update_policy: never
+      example-plugin:
+        enabled: false
+        update_policy: never
 
   allowpurge: true
 
