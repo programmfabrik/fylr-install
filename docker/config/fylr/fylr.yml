@@ -94,9 +94,22 @@ fylr:
     callbackBackendInternalURL: "http://fylr.localhost:8082"
     callbackApiInternalURL: "http://fylr.localhost:8081"
 
-  plugins:
+  plugin:
+    paths:
     - "/fylr/files/plugins/easydb"
-    - "/fylr/files/plugins/fylr/example"
+    - "/fylr/files/plugins/fylr"
+    #urls:
+    #- https://github.com/programmfabrik/fylr-plugin-formula-columns/releases/download/v0.1.2/fylr-plugin-formula-columns.zip
+
+    # defaults is a map setting defaults for the plugin registration.
+    # This is configured as map with the plugin name as key.
+    defaults:
+      # default for fylr_example plugin
+      fylr_example:
+        # enable, set to false to disable the plugin, defaults to true
+        enabled: false
+        # update_policy: automatic, always, never, defaults to automatic
+        update: "never"
 
   allowpurge: true
 
