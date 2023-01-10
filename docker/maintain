@@ -1,0 +1,124 @@
+#!/bin/bash
+
+# purpose of this script: execute maintenance tasks around fylr:
+#
+# - save consistent copy of sql ("dump")
+# - cleanup superfluous docker files
+
+# requires: docker, docker-compose
+
+# usage:
+#
+# /srv/fylr/maintain backup      # dumps sql into /srv/fylr/sqlbackups
+#                                  # is also part of update and update-auto
+#                                  # DANGER: deletes some old backups
+# /srv/fylr/maintain cleanup     # remove old files. Is also part of update and update-auto
+# /srv/fylr/maintain stop        # stops fylr via docker-compose
+#                                  # DANGER: stop will be in effect even after reboot.
+#                                  # Do not forget to start again.
+# /srv/fylr/maintain start       # starts fylr via docker-compose
+# /srv/fylr/maintain restart     # both of the above
+
+# Data directory with the subdirectories "conf" etc.:
+BASEDIR=/srv/fylr
+# Space-separated list of names of dbs in postgresql in container to dump:
+DBS="fylr"
+# Of eas DB in $DBS keep this many newest dumps:
+KEEPDBS=7
+# Where to write log messages to while doing update-auto:
+UPDATELOG=/var/log/fylr-update.log
+
+# read local values:
+[ -e /etc/default/fylr ] && . /etc/default/fylr
+
+case "$1" in
+start)
+    set -e
+    cd "$BASEDIR"
+    docker-compose up -d
+    ;;
+stop)
+    set -e
+    cd "$BASEDIR"
+    docker-compose down
+;;
+restart)
+    $0 stop 2>&1 | sed '/Network .* not found/d'
+    $0 start
+;;
+backup)
+    # do sql backup of all sql dbs $DBS
+    # WARNING: there are only $KEEPDBS kept - repeating this quickly removes all old backups (on this host) !
+    cd $BASEDIR/sqlbackups                   || exit 2
+    /usr/bin/docker ps|grep -q 'postgresql$' || exit 3
+    for DB in $DBS; do
+            $0 sqldump $DB                   || exit 4
+    done
+    exit 0
+    ;;
+sqldump)
+    # do sql backup of one given sql db name (inside docker container "postgresql")
+    DB="$2"
+    TIME=`date +%Y-%m-%d_%Hh%Mm%Ss`
+    FILE=$DB."$TIME".pgdump
+    /usr/bin/docker exec postgresql pg_dump -U fylr -v -Fc -f /mnt/${FILE}.unfinished $DB > $FILE.log 2>&1
+    EXCODE=$?
+    if [ $EXCODE -gt 0 ] ; then
+        # FAIL. cleanup and notify
+        rm ${FILE}.unfinished &>/dev/null
+        mv $FILE.log  $FILE.log.FAIL &>/dev/null
+        echo "pg_dump $DB exited with $EXCODE. Logfile is $BASEDIR/sqlbackups/$FILE.log.FAIL"
+        echo "pg_dump $DB exited with $EXCODE. Logfile is $BASEDIR/sqlbackups/$FILE.log.FAIL" >&2
+        exit 4
+    else
+        # SUCCEEDED.
+        mv ${FILE}.unfinished $FILE
+        # rotate so that only the last $KEEPDBS valid dumps remain. Also for logs.
+        ls -1 --color=no $DB.*s.pgdump    |sort -r|tail -n +$((KEEPDBS+1))|while read i; do rm $i; done
+        ls -1 --color=no $DB.*s.pgdump.log|sort -r|tail -n +$((KEEPDBS+1))|while read i; do rm $i; done
+    fi
+    exit 0
+    ;;
+cleanup)
+    #  free disk space
+    #
+    #  In our experience, used containers are not damaged by these commands
+    #  and used images are not damaged even if they have no running container.
+    #  Some error messages may be generated, however ("could not remove").
+
+    echo "removing left over temporary files..."
+    LIST=$(/usr/bin/docker ps -qa --no-trunc --filter "status=exited")
+    if [ "$LIST" ] ; then
+        /usr/bin/docker rm -v $LIST #>/dev/null
+        echo "... done."
+    else
+        echo "... none found."
+    fi
+
+    echo "removing unused images..."
+    LIST=$(/usr/bin/docker images --filter "dangling=true" -q --no-trunc)
+    if [ "$LIST" ] ; then
+        /usr/bin/docker rmi $LIST #>/dev/null
+        echo "... done."
+    else
+        echo "... none found."
+    fi
+
+    # next step:
+    # docker images | grep '<none>' | awk '{print }' | xargs -r docker rmi -f
+
+    echo "removing dangling volumes..."
+    LIST=$(/usr/bin/docker volume ls -qf dangling=true)
+    if [ "$LIST" ] ; then
+        /usr/bin/docker volume rm $LIST #>/dev/null
+        echo "... done."
+    else
+        echo "... none found."
+    fi
+    echo All done cleaning up.
+    ;;
+*)
+    echo "ERROR: argument '$1' not implemented."
+    ;;
+esac
+
