@@ -74,6 +74,18 @@ You can now surf to your fylr webfrontend at Port 443
 
 Default login is `root` with password `admin`. Please replace with a secure password: Click on `root` in the upper left corner.
 
+## automate SQL dumps
+
+To have consistent and complete snapshots of your SQL data, we strongly recommend:
+
+```bash
+curl https://raw.githubusercontent.com/programmfabrik/fylr-install/main/docker/maintain -o maintain
+chmod a+x maintain
+echo '23 43  *  *  *  root /srv/fylr/maintain backup' > /etc/cron.d/fylr-sql-backup
+```
+
+With this setup you will find nightly sql dumps and pg_dump's log files in `/srv/fylr/sqlbackups`.
+
 ## Troubleshooting
 
 * `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
