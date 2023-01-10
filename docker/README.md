@@ -7,7 +7,7 @@
 
 The following commands assume a Debian or Ubuntu server as an example and a bash shell.
 
-* docker-compose
+* get docker-compose
 
 ```bash
 apt-get install docker-compose
