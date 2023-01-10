@@ -84,6 +84,7 @@ Such messages can be safely ignored:
 > could not obtain lock on row in relation
 
 > WRN Error occurred in NewIntrospectionRequest error=request_unauthorized Env=api
+
 > WRN Accepting token failed error
 
 ## Further reading
