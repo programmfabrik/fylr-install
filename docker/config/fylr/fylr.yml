@@ -143,7 +143,9 @@ fylr:
             # Fill in the value of fylr.services.webapp.oauth.clientSecrets
             # in the next line instead of EXAMPLE and execute it
             #   htpasswd -nbBC 10 "" EXAMPLE | tr -d ':\n'; echo
-            # and use the result as secret in the following line:
+            #   if you do not have htpasswd somewhere to execute once,
+            #   you can install it by (e.g. under ubuntu): apt install apache2-utils
+            # use the resulting string as secret in the following line:
             secret: $2y$16$EXAMPLEEXAMPLEEXAMPLEuZP8DPshwAda7T99GhLLqff8KyGYvZ4K
             redirectURIs:
               - https://EXAMPLE.COM/oauth2/callback
