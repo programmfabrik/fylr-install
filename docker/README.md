@@ -2,7 +2,7 @@
 
 * 16 GB of RAM
 * The below mentioned containers are linux containers, so you need a linux server or linux virtual machine.
-* fylr requires a running container engine. And in the here proposed installation method, we use docker. So refer to docker's official documentation: [how to install docker](https://docs.docker.com/engine/install/) and follow these steps.
+* fylr requires a running container engine. And in the here proposed installation method, we use docker. So refer to docker's official documentation: [how to install docker](https://docs.docker.com/engine/install/#server) and follow these steps.
 * Port 443 for https and port 80 for registering (and renewing) an https certificate with letsencrypt.
 
 The following commands assume a Debian or Ubuntu server as an example and a bash shell.
