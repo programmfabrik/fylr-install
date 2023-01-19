@@ -16,7 +16,7 @@ fylr:
     driver: "postgres"
     dsn: "postgres://fylr:fylr@postgresql:5432/fylr?sslmode=disable"
 
-    maxOpenConns: 20
+    maxOpenConns: 0
     maxIdleConns: 10
     # The init block is used to pre-fill the database when its created or purged.
     init:
