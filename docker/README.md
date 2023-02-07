@@ -99,6 +99,12 @@ Such messages can be safely ignored:
 
 > WRN Accepting token failed error
 
+Trouble with reachability, network, redirects:
+
+* If you set your firewall rules to Allow, does the problem (e.g. `400 Bad Request`) go away?
+
+* Does your network use a private IP range that overlaps with docker networks? 
+
 ## Further reading
 
 * [Import an easydb into fylr](../customization/restore-easydb5.md)
