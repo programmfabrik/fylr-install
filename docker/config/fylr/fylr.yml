@@ -245,6 +245,12 @@ fylr:
                 args:
                   - "-version"
                 regex: "ffprobe version 5[\\.0-9]+ Copyright"
+            ffmpegthumbnailer:
+              prog: ffmpegthumbnailer
+              startupCheck:
+                args:
+                - "-v"
+                regex: "ffmpegthumbnailer version: 2\\..*"
             fylr_metadata:
               prog: "fylr_metadata"
         soffice:
