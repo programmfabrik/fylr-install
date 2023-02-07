@@ -105,6 +105,10 @@ Trouble with reachability, network, redirects:
 
 * Does your network use a private IP range that overlaps with docker networks? 
 
+Assets are not processed, previews are not generated:
+
+* Look into the URL path /inspect/files, so e.g. https://your-fylr-domain/inspect/files and look for status: `failed` and `error`. Click on the IDs and e.g. `Show details` to search for error messages.
+
 ## Further reading
 
 * [Import an easydb into fylr](../customization/restore-easydb5.md)
