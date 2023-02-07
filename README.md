@@ -24,6 +24,21 @@ After installation you should have this running fylr webfrontend:
 
 # Changelog
 
+## 01.2023
+
+To get preview images for video assets, in your fylr.yml add:
+
+```
+            ffmpegthumbnailer:
+              prog: ffmpegthumbnailer
+              startupCheck:
+                args:
+                - "-v"
+                regex: "ffmpegthumbnailer version: 2\\..*"
+```
+
+  ... with context, see https://github.com/programmfabrik/fylr-install/commit/b802c949ffcd4653dcacdac930a47b71bf56f20b
+
 ## 12.2022
 
 If you used fylr.exe with sqlite, then your old fylr.yml, ...
