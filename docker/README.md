@@ -111,6 +111,8 @@ Assets are not processed, previews are not generated:
 
 ## Further reading
 
+* [migrate a whole fylr into another](further-reading/migrate-fylr-2-fylr.md)
+
 * [Import an easydb into fylr](../customization/restore-easydb5.md)
 
 * [Use a customized Web-Frontend](../customization/webfrontend.md)
