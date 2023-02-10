@@ -1,4 +1,4 @@
-# how to migrate a whole flyr into another
+# how to migrate a whole fylr into another
 
 e.g. when you want to create a production instance with data from a development instance.
 
@@ -33,13 +33,13 @@ scp dev-server:/srv/fylr/sqlbackups/fylr.pg_dump /srv/fylr/sqlbackups/
 
 docker exec -it postgresql pg_restore -U fylr -v -d fylr /mnt/fylr.pg_dump
 ```
-4. copy assets from dev to prod. FOr example, with file based assets (not s3 based):
+4. copy assets from dev to prod. For example, with file based assets (not s3 based):
 ```
 rsync -a --numeric-ids dev-server:/srv/fylr/assets/* /srv/fylr/assets
 ```
 5. start fylr on prod:
 ```
 docker-compose up -d
-}}}
+```
 6. You may need to force a re-index in Elasticsearch: surf to fylrURL/inspect/system/ and click a Reindex button
 
