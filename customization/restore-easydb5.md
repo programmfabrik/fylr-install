@@ -1,5 +1,7 @@
 # How to add the data of an easydb 5 to a fylr
 
+(A migration from fylr to fylr is instead described in another document: [migrate a whole fylr into another](../docker/further-reading/migrate-fylr-2-fylr.md))
+
 ## Preparations
 
 You may or may not want to prepare some of the following:
@@ -87,16 +89,16 @@ fylr:
 
   * example: http://fylr.example.com/inspect/backup/
 
-2. Fill in the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `OAuth2` is not selected, as easydb5 does not know OAuth. Click the button `backup`.
+2. Fill in the form fields of the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `OAuth2` is not selected, as easydb5 does not know OAuth. Click the button `backup`.
 
 ## Restore into fylr
 
-Fill in the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
+Fill in the form fields of the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
   * This will delete the data in fylr. And the data model.
 
   * Make sure `OAuth2` is selected, it is mandatory for fylr.
-    * OAuth2 credentials are configured in fylr.yml, example:
+    * OAuth2 credentials are configured in fylr.yml. To look them up in fylr config search something like ... :
 
 ```
 fylr:
@@ -124,7 +126,9 @@ fylr:
 
 # Command Line
 
-If you want to access the backup via command line:
+If you want to access the backup via command line ...
+* e.g. to restore via command line or 
+* e.g. to continue an aborted restore via command line
 
 ```
 docker exec -ti fylr-server /bin/sh
