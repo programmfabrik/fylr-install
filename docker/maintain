@@ -32,6 +32,19 @@ UPDATELOG=/var/log/fylr-update.log
 [ -e /etc/default/fylr ] && . /etc/default/fylr
 
 case "$1" in
+pull)
+    cd "$BASEDIR"
+    docker-compose pull
+    ;;
+update-fylr|fylr-update)
+    cd "$BASEDIR"
+    docker-compose pull fylr
+    docker-compose up --force-recreate --no-deps -d fylr
+    ;;
+recreate-fylr|fylr-recreate)
+    cd "$BASEDIR"
+    docker-compose up --force-recreate --no-deps -d fylr
+    ;;
 start)
     set -e
     cd "$BASEDIR"
