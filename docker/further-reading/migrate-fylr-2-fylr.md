@@ -27,9 +27,9 @@ The sql does include datamodel, objects, users, groups, user rights, base config
 ```
 docker-compose up -d postgresql
 ```
-3. import the sql-dump on the new server:
+3. import the sql-dump on the new server: (scp is just an example method of copying here, used on the new server)
 ```
-scp dev-server:/srv/fylr/sqlbackups/fylr.pg_dump /srv/fylr/sqlbackups/
+scp old-server:/srv/fylr/sqlbackups/fylr.pg_dump /srv/fylr/sqlbackups/
 
 docker exec -it postgresql pg_restore -U fylr -v -d fylr /mnt/fylr.pg_dump
 ```
