@@ -49,7 +49,6 @@ restart)
 backup)
     # do sql backup of all sql dbs $DBS
     # WARNING: there are only $KEEPDBS kept - repeating this quickly removes all old backups (on this host) !
-    cd $BASEDIR/sqlbackups                   || exit 2
     /usr/bin/docker ps|grep -q 'postgresql$' || exit 3
     for DB in $DBS; do
             $0 sqldump $DB                   || exit 4
@@ -58,6 +57,7 @@ backup)
     ;;
 sqldump)
     # do sql backup of one given sql db name (inside docker container "postgresql")
+    cd $BASEDIR/sqlbackups                   || exit 2
     DB="$2"
     TIME=`date +%Y-%m-%d_%Hh%Mm%Ss`
     FILE=$DB."$TIME".pgdump
