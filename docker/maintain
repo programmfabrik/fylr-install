@@ -7,17 +7,29 @@
 
 # requires: docker, docker-compose
 
-# usage:
-#
-# /srv/fylr/maintain backup      # dumps sql into /srv/fylr/sqlbackups
-#                                  # is also part of update and update-auto
-#                                  # DANGER: deletes some old backups
-# /srv/fylr/maintain cleanup     # remove old files. Is also part of update and update-auto
-# /srv/fylr/maintain stop        # stops fylr via docker-compose
-#                                  # DANGER: stop will be in effect even after reboot.
-#                                  # Do not forget to start again.
-# /srv/fylr/maintain start       # starts fylr via docker-compose
-# /srv/fylr/maintain restart     # both of the above
+usage(){
+cat<<EOF
+/srv/fylr/maintain recreate-fylr
+/srv/fylr/maintain fylr-recreate # remove only flyr container and recreate it
+
+/srv/fylr/maintain update-fylr
+/srv/fylr/maintain fylr-update   # pull fylr container image. Then does fylr-recreate
+
+/srv/fylr/maintain backup      # dumps sql into ${BASEDIR}/sqlbackups
+                               # is also part of update and update-auto
+                               # DANGER: deletes some old backups
+
+/srv/fylr/maintain cleanup     # remove old files, e.g. container images
+
+/srv/fylr/maintain stop        # stops fylr via docker-compose
+                               # DANGER: stop will be in effect even after reboot.
+                               # Do not forget to start again.
+
+/srv/fylr/maintain start       # starts fylr via docker-compose
+
+/srv/fylr/maintain restart     # stop and start
+EOF
+}
 
 # Data directory with the subdirectories "conf" etc.:
 BASEDIR=/srv/fylr
@@ -130,8 +142,13 @@ cleanup)
     fi
     echo All done cleaning up.
     ;;
+help|h|-h|--help|-help)
+    usage
+    ;;
 *)
     echo "ERROR: argument '$1' not implemented."
+    echo
+    usage
     ;;
 esac
 
