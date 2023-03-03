@@ -26,8 +26,7 @@ fylr:
 * In case you want to override defaults during purge: Download the base config containing your settings in fylr web-frontend (URL`/configmanager`: gear symbol at the bottom), to later upload it during and with `fylr restore --purge --base-config=DOWNLOADED_FILE`.
 
 * Another way to preserve location configuration during purge & restore is to write it in your fylr.yml. For example:
-```
-fylr:
+```fylr:
   db:
     # The init block is used to pre-fill the database when its created or purged.
     init:
@@ -85,13 +84,39 @@ fylr:
 
 ## Backup easydb5
 
+### backup via frontend
+(easier to get into but not robust for long runs, we recommend command line, see below)
+
 1. Surf to your fylr and add to the URL: /inspect/backup/
 
   * example: http://fylr.example.com/inspect/backup/
 
 2. Fill in the form fields of the paragraph `Create backup [...] via API` there. Use URL and login of an easydb 5. Make sure `OAuth2` is not selected, as easydb5 does not know OAuth. Click the button `backup`.
 
+### backup via command line
+(harder to learn but more robust and flexible)
+
+Also run `fylr backup -h` for more infos about the parameters.
+
+Example:
+```
+fylr backup -v \
+  --server https://easydb.example.com/api/v1/ \
+  --login root --password 'cleartext-example' \
+  --dir backup1 --compression 9 --purge \
+  --chunk 100 --size 1000 --limit 0
+```
+
+`--server` ,`--login` and `--password` refer to the source server
+
+`--purge` deletes a backup at `--dir …` in case there is already one
+
+Beware: No assets are stored in the backup files, only URLs. All assets are pulled via URL from the backupped instance during restore. (So it needs the backupped instance still running).
+
 ## Restore into fylr
+
+### restore via frontend
+(easier to get into but not robust for long runs, we recommend command line, see below)
 
 Fill in the form fields of the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
@@ -124,9 +149,9 @@ fylr:
 
   *  Click the button `restore`.
 
-# Command Line
+### access a frontend backup via command line
 
-If you want to access the backup via command line ...
+Special cace: If you want to access a backup made via frontend later via command line ...
 * e.g. to restore via command line or 
 * e.g. to continue an aborted restore via command line
 
@@ -147,31 +172,54 @@ fylr restore [...]
 
 * If you use this to continue an aborted restore then replace `--purge` with `--continue`.
 
-* There is also help with `fylr restore --help`.
+* Also see below: restore via commandline
 
-* Examples as a starting point:
+### restore via command line
+(harder to learn but more robust and flexible)
 
-```
-docker exec -ti fylr-server /bin/sh
-cd /tmp/fylrctrl
-fylr backup --server https://easydb.example.com/api/v1 \
- --login root --password '*' --dir backup1 --log backup1/backup.log \
- --chunk 100 --size 1000 --limit 0 --compression 9 \
- --purge
-```
+Also see `fylr restore --help`.
 
-* during backup, `--purge` will just "purge" any backup with same name.
+Example:
 
 ```
-docker exec -ti fylr-server /bin/sh
-cd /tmp/fylrctrl
-fylr restore --server http://localhost:8080/api/v1 --login root --password '*' \
- -m backup1/manifest.json --chunk 100 --clientId web-client --clientSecret foo \
- --clientTokenUrl http://localhost:8080/api/oauth2/token \
- --limit 0 --upload-parallel 4 --timeout 15 --log backup1/restore.log \
- --file-api eas --upload-versions \
- --purge --continue # EITHER --purge OR --continue
+fylr restore \
+  --log backup1/restore.log \
+  --server <fylr url>/api/v1 \
+  --login root --password 'cleartext' \
+  --manifest backup1/manifest.json \
+  --client-id web-client --client-secret foo \
+  --client-token-url <fylr url>/api/oauth2/token \
+  --chunk 100 --limit 0 --timeout-min=1 \
+  --file-api put --file-version preview \
+  --purge --continue # EITHER --purge OR --continue
 ```
 
-* during restore, use `--purge` on your first run and if that aborts, `--continue` instead.
+* for the --server parameter, include the HTTP Basic Auth: `http://<login>:<password>@<fylr url>/api/v1`
 
+* --server ,--login and --password refer to the target server
+
+* --client-id fylr-web-frontend is correct for our cloud instances. Likewise…
+
+* --client-secret foo is a fylr default.
+
+* --chunk defines the batch size of objects in POST requests to api/v1/db
+
+if the objects are too big or complex, the requests might take too long and cause a timeout
+
+in this case, lower this value and continue restoring with --continue
+
+* `--purge` deletes the datamodel and all data on the target system!
+
+* use `--purge` on your first run and if that aborts, `--continue` instead(!).
+
+Valid strings for `--file-api="STRING"` :
+
+* `put`: the fylr you called via command line does the uploads, waits
+
+* `rput`: server uploads, backgrounded
+
+* `rput_leave`: server uses the remote URL and never copies the data to local S3 storage
+
+* `eas`: only the INFO that a file exists is saved, no further action is performed by FYLR, most importantly NO metadata is fetched. this is the fastest option for quick migrations. all versions remain on the original source
+
+* `""` Leave empty to not upload files
