@@ -194,19 +194,19 @@ fylr restore \
   --purge --continue # EITHER --purge OR --continue
 ```
 
-* for the --server parameter, include the HTTP Basic Auth: `http://<login>:<password>@<fylr url>/api/v1`
+* for the `--server` parameter, include the HTTP Basic Auth: `http://<login>:<password>@<fylr url>/api/v1`
 
-* --server ,--login and --password refer to the target server
+* `--server` ,`--login` and `--password` refer to the target server
 
-* --client-id fylr-web-frontend is correct for our cloud instances. Likewise…
+* `--client-id fylr-web-frontend` is correct for our cloud instances. Likewise…
 
-* --client-secret foo is a fylr default.
+* `--client-secret foo` is a fylr default dummy value.
 
-* --chunk defines the batch size of objects in POST requests to api/v1/db
+* `--chunk` defines the batch size of objects in POST requests to api/v1/db
 
-if the objects are too big or complex, the requests might take too long and cause a timeout
+  if the objects are too big or complex, the requests might take too long and cause a timeout
 
-in this case, lower this value and continue restoring with --continue
+  in this case, lower the `--chunk` value and continue restoring with `--continue`
 
 * `--purge` deletes the datamodel and all data on the target system!
 
