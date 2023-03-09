@@ -9,7 +9,7 @@ In the example below we call the instances "old server" and "new server".
 
 We currently recommend to do this like a sysadmin's backup and restore, so you need access to the command line.
 
-Make also sure you have a mounted volume for sql-backups (e.g. in the [docker-compose.yml](https://github.com/programmfabrik/fylr-install/blob/main/docker/docker-compose.yml#L34) of our installation [instructions](https://github.com/programmfabrik/fylr-install/blob/main/docker/README.md)):
+Make also sure you have access to the sql backups. So in case of an installation via docker-compose: a mounted volume for sql-backups (e.g. in the [docker-compose.yml](https://github.com/programmfabrik/fylr-install/blob/main/docker/docker-compose.yml#L34) of our installation [instructions](https://github.com/programmfabrik/fylr-install/blob/main/docker/README.md)):
 ```
 services:
   postgresql:
