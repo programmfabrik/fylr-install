@@ -7,10 +7,10 @@
 
 The following commands assume a Debian or Ubuntu server as an example and a bash shell.
 
-* get docker-compose
+* get docker-compose to use our provided example. Apparmor is required for docker in newer Debian and Ubuntu
 
 ```bash
-apt-get install docker-compose
+apt-get install docker-compose apparmor
 ```
 
 * Memory setting needed for elasticsearch:
