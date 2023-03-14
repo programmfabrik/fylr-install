@@ -146,7 +146,7 @@ fylr:
         clients:
           # key in next line = value of fylr.services.webapp.oauth.clientID
           web-client:
-            # Fill in the value of fylr.services.webapp.oauth.clientSecrets
+            # Fill in the value of fylr.services.webapp.oauth2.clientSecret
             # in the next line instead of EXAMPLE and execute it
             #   htpasswd -nbBC 10 "" EXAMPLE | tr -d ':\n'; echo
             #   if you do not have htpasswd somewhere to execute once,
