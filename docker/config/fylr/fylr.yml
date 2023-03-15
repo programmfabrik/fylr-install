@@ -294,11 +294,6 @@ fylr:
           commands:
             xsltproc:
               prog: "xsltproc"
-        copy:
-          waitgroup: a
-          commands:
-            fylr_copy:
-              prog: "fylr_copy"
         iiif:
           waitgroup: a
           commands:
@@ -319,4 +314,3 @@ fylr:
                 args:
                   - "-version"
                 regex: "ffprobe version 5[\\.0-9]+ Copyright"
-
