@@ -24,6 +24,29 @@ After installation you should have this running fylr webfrontend:
 
 # Changelog
 
+## 03.2023 v6.2.5
+
+Missing utilities (like fylr_metadata, Image Magick, etc.) do not cause fylr startup to fail.
+
+The utiltiy `fylr_copy` is not needed any more and shall be removed from configuration. So under this structure ...
+
+```
+fylr:
+  services:
+    execserver:
+      services:
+```
+
+... the following part shall be removed:
+
+```
+        copy:
+          waitgroup: a
+          commands:
+            fylr_copy:
+              prog: "fylr_copy"
+```
+
 ## 01.2023
 
 To get preview images for video assets, in your fylr.yml add:
