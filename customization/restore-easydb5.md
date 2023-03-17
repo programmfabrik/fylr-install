@@ -116,7 +116,7 @@ Beware: No assets are stored in the backup files, only URLs. All assets are pull
 ## Restore into fylr
 
 ### restore via frontend
-(easier to get into but not robust for long runs, we recommend command line, see below)
+(easier to get into but not robust for long runs, we recommend [command line](#restore-via-frontend), see below)
 
 Fill in the form fields of the paragraph `Restore backup [...] via API`. This time with URL and login of fylr.
 
@@ -151,7 +151,7 @@ fylr:
 
 ### access a frontend backup via command line
 
-Special cace: If you want to access a backup made via frontend later via command line ...
+Special case: If you want to access a backup made via frontend later via command line ...
 * e.g. to restore via command line or 
 * e.g. to continue an aborted restore via command line
 
