@@ -297,6 +297,8 @@ fylr:
         iiif:
           waitgroup: a
           commands:
+            convert:
+              prog: "convert"
             fylr_iiif:
               prog: "fylr_iiif"
               startupCheck:
