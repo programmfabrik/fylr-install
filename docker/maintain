@@ -9,8 +9,12 @@
 
 usage(){
 cat<<EOF
-/srv/fylr/maintain recreate-fylr
-/srv/fylr/maintain fylr-recreate # remove only flyr container and recreate it
+/srv/fylr/maintain recreate-fylr # remove only flyr container and recreate it,
+/srv/fylr/maintain fylr-recreate # dito.
+/srv/fylr/maintain fylr-reload   # dito.
+/srv/fylr/maintain fylr-reload-config # dito.
+/srv/fylr/maintain fylr-restart  # dito.
+/srv/fylr/maintain restart-fylr  # dito.
 
 /srv/fylr/maintain update-fylr
 /srv/fylr/maintain fylr-update   # pull fylr container image. Then does fylr-recreate
@@ -53,7 +57,7 @@ update-fylr|fylr-update)
     docker-compose pull fylr
     docker-compose up --force-recreate --no-deps -d fylr
     ;;
-recreate-fylr|fylr-recreate)
+recreate-fylr|fylr-recreate|fylr-reload|fylr-reload-config|fylr-restart|restart-fylr)
     cd "$BASEDIR"
     docker-compose up --force-recreate --no-deps -d fylr
     ;;
@@ -151,4 +155,3 @@ help|h|-h|--help|-help)
     usage
     ;;
 esac
-
