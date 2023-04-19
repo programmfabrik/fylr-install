@@ -89,7 +89,7 @@ With this setup you will find nightly sql dumps and pg_dump's log files in `/srv
 ## Troubleshooting
 
 * `docker-compose` needs to be executed in the directory with the `docker-compose.yml`.
-* When docker cannot start containers with errors refering to `shim, OCI, apparmor`: `apt-get install apparmor apparmor-utils; systemctl restart docker`
+* When docker cannot start containers with errors refering to `shim, OCI, apparmor`: Install apparmor, e.g. with `apt-get install apparmor apparmor-utils; systemctl restart docker`
 * When elasticsearch does not work, make sure you used `sysctl` as shown above.
 
 Such messages can be safely ignored:
