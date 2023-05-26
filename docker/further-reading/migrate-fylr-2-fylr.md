@@ -26,20 +26,29 @@ docker exec postgresql pg_dump -U fylr -v -Fc -f /mnt/fylr.pg_dump fylr
 
 The sql does include datamodel, objects, users, groups, user rights, base configuration.
 
-2. copy assets from old server. For example, with file based assets (not s3 based):
+## prepare new server
+
+2. copy data from old server to new server.
+
+Assets: In this example, with file based assets (not s3 based):
 ```
 rsync -a --numeric-ids old-server:/srv/fylr/assets/* /srv/fylr/assets
 ```
-  ... in this example the command is executed on the new server. But it could be a backup server instead.
+  ... executed on the new server.
 
-## restore
-
-We assume you have the assets of step 2 on the new server.
+Also get the dump of the sql to the new server, here an example using scp:
+```
+scp old-server:/srv/fylr/sqlbackups/fylr.pg_dump /srv/fylr/sqlbackups/
+```
 
 3. install fylr on the new server but only start postgresql:
 ```
 docker-compose up -d postgresql
 ```
+
+Make sure that the postgresql DB and elasticsearch indices are empty from previous attempts on the new server so that there is no collision of data.
+
+## restore
 
 4. import the sql-dump on the new server: (scp is just an example method of copying here, used on the new server)
 ```
