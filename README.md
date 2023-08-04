@@ -1,12 +1,14 @@
 # fylr installation methods
 
-* [container desktop](desktop/README.md): To set up the fylr container on your desktop (With a container engine like docker, for Linux containers).
+This is now newer at https://docs.fylr.io/for-system-administrators/installation
 
-* [container server](docker/README.md): To set up fylr container on a server (With a container engine like docker, for Linux containers).
+Thus, this repo will be removed at some point.
+
+* [container server](https://docs.fylr.io/for-system-administrators/installation/linux-docker-compose): To set up fylr container on a server (With a container engine like docker, for Linux containers).
 
 * [kubernetes](https://github.com/programmfabrik/fylr-helm): See our [helm chart](https://github.com/programmfabrik/fylr-helm).
 
-* [fylr.exe](windows/README.md): To run fylr.exe on Windows.
+* [fylr.exe](https://docs.fylr.io/for-system-administrators/installation/windows): To run fylr.exe on Windows.
 
 ## Contact us
 
@@ -16,11 +18,6 @@ For Issues and questions please write to support@programmfabrik.de
 
 4 cores and 16 GB RAM. For more than 100k assets, 32 GB RAM. (requirements depend heavily on data model and usage)
 
-## Result 
-
-After installation you should have this running fylr webfrontend:
-
-![fylr-preview](assets/fylr-preview.png)
 
 # Changelog
 
