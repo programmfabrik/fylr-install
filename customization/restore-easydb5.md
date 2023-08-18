@@ -227,3 +227,5 @@ Valid strings for `--file-api="STRING"` :
 * `eas`: only the INFO that a file exists is saved, no further action is performed by FYLR, most importantly NO metadata is fetched. this is the fastest option for quick migrations. all versions remain on the original source
 
 * `""` Leave empty to not upload files
+
+For the final migration including assets, use `--file-version=original`
