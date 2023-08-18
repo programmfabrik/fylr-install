@@ -107,9 +107,13 @@ fylr backup -v \
   --chunk 100 --size 1000 --limit 0
 ```
 
+If your fylr is inside a docker container: `docker exec -ti fylr fylr backup ...`.
+
+If you are using our docker.compose.yml: `--dir /srv/backup1` because /srv is already mapped to the outside. backup1 will be created.
+
 `--server` ,`--login` and `--password` refer to the source server
 
-`--purge` deletes a backup at `--dir …` in case there is already one
+`--purge` deletes the directory at `--dir …` in case there is already one. And re-creates it.
 
 Beware: No assets are stored in the backup files, only URLs. All assets are pulled via URL from the backupped instance during restore. (So it needs the backupped instance still running).
 
