@@ -109,7 +109,7 @@ fylr backup -v \
 
 If your fylr is inside a docker container: `docker exec -ti fylr fylr backup ...`.
 
-If you are using our docker.compose.yml: `--dir /srv/backup1` because /srv is already mapped to the outside. backup1 will be created.
+If you are using our docker-compose.yml: `--dir /srv/backup1` because /srv is already mapped to the outside. backup1 will be created.
 
 `--server` ,`--login` and `--password` refer to the source server
 
