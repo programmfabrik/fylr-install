@@ -195,6 +195,7 @@ fylr restore \
   --client-token-url <fylr url>/api/oauth2/token \
   --chunk 100 --limit 0 --timeout-min=1 \
   --file-api put --file-version preview \
+  --include-password \
   --purge --continue # EITHER --purge OR --continue
 ```
 
@@ -211,6 +212,14 @@ fylr restore \
   if the objects are too big or complex, the requests might take too long and cause a timeout
 
   in this case, lower the `--chunk` value and continue restoring with `--continue`
+
+* `--include-password` when restoring users their passwords (hashes) are restored.
+
+    **Important:** For security reasons, easydb5 will ignore the `include_password` url parameter for the user API, if it is not explicitly allowed in the `easydb-server.yml`.
+
+    Make sure to enable this in the source easydb5 instance before running the backup. See https://docs.easydb.de/en/technical/api/user/#returning-password-hashes
+
+    After the backup is done, this feature should be disabled again in the source instance.
 
 * `--purge` deletes the datamodel and all data on the target system!
 
