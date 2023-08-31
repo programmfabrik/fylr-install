@@ -26,7 +26,8 @@ fylr:
 * In case you want to override defaults during purge: Download the base config containing your settings in fylr web-frontend (URL`/configmanager`: gear symbol at the bottom), to later upload it during and with `fylr restore --purge --base-config=DOWNLOADED_FILE`.
 
 * Another way to preserve location configuration during purge & restore is to write it in your fylr.yml. For example:
-```fylr:
+```
+fylr:
   db:
     # The init block is used to pre-fill the database when its created or purged.
     init:
@@ -215,11 +216,21 @@ fylr restore \
 
 * `--include-password` when restoring users their passwords (hashes) are restored.
 
-    **Important:** For security reasons, easydb5 will ignore the `include_password` url parameter for the user API, if it is not explicitly allowed in the `easydb-server.yml`.
+    **Pitfall:** For security reasons, easydb5 will ignore the `include_password` url parameter for the user API, if it is not explicitly allowed in the `easydb-server.yml` or `easydb-server.d/*.yml`.
 
     Make sure to enable this in the source easydb5 instance before running the backup. See https://docs.easydb.de/en/technical/api/user/#returning-password-hashes
 
     After the backup is done, this feature should be disabled again in the source instance.
+
+    Example of this in the `easydb-server.yml` or `easydb-server.d/*.yml` (do not confuse with fylr's fylr.yml)
+
+```
+server:
+  api:
+    user:
+      # default: false
+      include_password: true
+```
 
 * `--purge` deletes the datamodel and all data on the target system!
 
