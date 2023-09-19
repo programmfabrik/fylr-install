@@ -244,8 +244,6 @@ Valid strings for `--file-api="STRING"` :
 
 * `rput_leave`: server uses the remote URL and never copies the data to local S3 storage
 
-* `eas`: only the INFO that a file exists is saved, no further action is performed by FYLR, most importantly NO metadata is fetched. this is the fastest option for quick migrations. all versions remain on the original source
-
 * `""` Leave empty to not upload files
 
 For the final migration including assets, use `--file-version=original`
