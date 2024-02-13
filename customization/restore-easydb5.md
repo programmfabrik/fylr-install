@@ -8,6 +8,7 @@ You may or may not want to prepare some of the following:
 
 * Direct the easydb to include the passwords, described [here](https://docs.easydb.de/en/technical/api/user/#returning-password-hashes).
 
+* The root password is a special case: You probably want to set the destination fylr’s root password to a secure one. Especially when you install a fresh fylr or drop the databse and thus reset the password to the insecure `admin`. Production data should not be migrated into an instance were it is not protected by a secure password. `fylr migrate` treats the root password like this: During the migration, root’s password will be set to the value it has had at the start of the migration in fylr. So do not expect it to have the value of the easydb’s root password.
 
 * Allow purging in your fylr instance. Either in a fylr.yml:
 
