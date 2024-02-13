@@ -6,6 +6,9 @@
 
 You may or may not want to prepare some of the following:
 
+* Direct the easydb to include the passwords, described [here](https://docs.easydb.de/en/technical/api/user/#returning-password-hashes).
+
+
 * Allow purging in your fylr instance. Either in a fylr.yml:
 
 ```
