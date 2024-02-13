@@ -26,6 +26,24 @@ fylr:
 
 * Or in the frontend in URL`/configmanager`: `Development`: `Purge`: Check `Allow [...]` and `Delete [...]`. To not loose these settings while purging, also download and upload them as described in the next point.
 
+* In case purging the destination fylr does not work, do it via these commands:
+
+```
+docker-compose kill fylr opensearch # or elasticsearch instead of opensearch, also in the following lines
+docker rm -v fylr opensearch
+rm -rf /srv/fylr/assets/fylr-example-9308-4362-b773-3434f06ef388/* # replace example string 
+
+docker exec -ti postgresql psql -U fylr postgres
+DROP DATABASE fylr;
+CREATE DATABASE fylr OWNER fylr;
+\q
+
+rm -rf /srv/fylr/indexer/nodes/0
+docker-compose up -d opensearch
+
+docker-compose up -d fylr
+```
+
 * In case you want to override defaults during purge: Download the base config containing your settings in fylr web-frontend (URL`/configmanager`: gear symbol at the bottom), to later upload it during and with `fylr restore --purge --base-config=DOWNLOADED_FILE`.
 
 * Another way to preserve location configuration during purge & restore is to write it in your fylr.yml. For example:
